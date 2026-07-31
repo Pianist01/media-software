@@ -1,1 +1,3 @@
-console.log('This works');
+import {  createService } from './newservice.js';
+
+createService();
