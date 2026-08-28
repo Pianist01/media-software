@@ -16,7 +16,7 @@ function createForm() {
   const formTitle = document.createElement('h2');
   formTitle.classList.add('form-title');
   formTitle.textContent = 'Your Service';
-
+ 
 
   const titleInputContainer = document.createElement('div');
   titleInputContainer.classList.add('title-container');
@@ -29,11 +29,28 @@ function createForm() {
   serviceTitleInput.classList.add('service-title-input');
   serviceTitleInput.placeholder = 'Vigil';
 
+  const dateLabel = document.createElement()
+
   const serviceTypeLabel = document.createElement('label');
   serviceTypeLabel.classList.add('service-type-label');
   serviceTypeLabel.textContent = 'Service Type';
+
+  const serviceTypeInput = document.createElement('select');
+  serviceTitleInput.classList.add('service-type-dropdown');
+
+  for(let i = 0; i <= options.length - 1; i++) {
+    const option = document.createElement('option');
+    option.classList.add('service-type-options');
+    option.textContent += options[i];
+
+    serviceTypeInput.append(option);
+  }
+
+  formContainer.append(serviceTitleLabel, serviceTypeInput);
 
   titleInputContainer.append(formTitle, serviceTitleLabel, serviceTitleInput);
   formContainer.append(titleInputContainer);
   body.append(formContainer);
 }
+
+const options = ['Select Service Type', 'Sunday', 'Tuesday', 'Santa Cena', 'Vigilia'];
