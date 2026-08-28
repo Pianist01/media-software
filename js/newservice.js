@@ -29,7 +29,14 @@ function createForm() {
   serviceTitleInput.classList.add('service-title-input');
   serviceTitleInput.placeholder = 'Vigil';
 
-  const dateLabel = document.createElement()
+  const dateLabel = document.createElement('label');
+  dateLabel.classList.add('date-label');
+  dateLabel.textContent = 'Select Date';
+
+  const selectDate = document.createElement('input');
+  selectDate.id = 'calender';
+  selectDate.type = 'date';
+  selectDate.name = 'date-selection';
 
   const serviceTypeLabel = document.createElement('label');
   serviceTypeLabel.classList.add('service-type-label');
@@ -48,7 +55,7 @@ function createForm() {
 
   formContainer.append(serviceTitleLabel, serviceTypeInput);
 
-  titleInputContainer.append(formTitle, serviceTitleLabel, serviceTitleInput);
+  titleInputContainer.append(formTitle, serviceTitleLabel, serviceTitleInput, dateLabel, selectDate);
   formContainer.append(titleInputContainer);
   body.append(formContainer);
 }
