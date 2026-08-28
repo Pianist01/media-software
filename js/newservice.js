@@ -38,6 +38,9 @@ function createForm() {
   selectDate.type = 'date';
   selectDate.name = 'date-selection';
 
+  const serviceTypeContainer = document.createElement('div');
+  serviceTypeContainer.classList.add('service-type-container');
+
   const serviceTypeLabel = document.createElement('label');
   serviceTypeLabel.classList.add('service-type-label');
   serviceTypeLabel.textContent = 'Service Type';
@@ -53,7 +56,21 @@ function createForm() {
     serviceTypeInput.append(option);
   }
 
-  formContainer.append(serviceTitleLabel, serviceTypeInput);
+  const submitBtn = document.createElement('button');
+  submitBtn.classList.add('service-form-submitBtn');
+  submitBtn.textContent = 'Create Service';
+
+  const exitContainer = document.createElement('div');
+  exitContainer.classList.add('exit-container');
+  const exitImage = document.createElement('img');
+  exitImage.classList.add('exit-icon');
+  exitImage.src = '/img/exit.png';
+
+  exitContainer.append(exitImage);
+
+  serviceTypeContainer.append(serviceTypeLabel, serviceTypeInput);
+
+  formContainer.append(serviceTitleLabel, serviceTypeContainer, submitBtn, exitContainer);
 
   titleInputContainer.append(formTitle, serviceTitleLabel, serviceTitleInput, dateLabel, selectDate);
   formContainer.append(titleInputContainer);
