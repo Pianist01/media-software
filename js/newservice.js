@@ -1,3 +1,5 @@
+let formContainer;
+
 export function createService() {
   const newServiceBtn = document.querySelector('button');
   newServiceBtn.addEventListener('click', (e) => {
@@ -10,8 +12,9 @@ export function createService() {
 function createForm() {
   const body = document.querySelector('body');
 
-  const formContainer = document.createElement('div');
+  formContainer = document.createElement('form');
   formContainer.classList.add('form-container');
+
 
   const formTitle = document.createElement('h2');
   formTitle.classList.add('form-title');
@@ -28,6 +31,7 @@ function createForm() {
   const serviceTitleInput = document.createElement('input');
   serviceTitleInput.classList.add('service-title-input');
   serviceTitleInput.placeholder = 'Vigil';
+  serviceTitleInput.required = true;
 
   const dateLabel = document.createElement('label');
   dateLabel.classList.add('date-label');
@@ -37,6 +41,7 @@ function createForm() {
   selectDate.id = 'calender';
   selectDate.type = 'date';
   selectDate.name = 'date-selection';
+  selectDate.required = true;
 
   const serviceTypeContainer = document.createElement('div');
   serviceTypeContainer.classList.add('service-type-container');
@@ -46,12 +51,17 @@ function createForm() {
   serviceTypeLabel.textContent = 'Service Type';
 
   const serviceTypeInput = document.createElement('select');
-  serviceTitleInput.classList.add('service-type-dropdown');
+  serviceTypeInput.classList.add('service-type-dropdown');
+  serviceTypeInput.required = true;
 
-  for(let i = 0; i <= options.length - 1; i++) {
+  for(let i = 0; i < options.length; i++) {
     const option = document.createElement('option');
     option.classList.add('service-type-options');
-    option.textContent += options[i];
+    option.textContent = options[i];
+
+    if(i === 0) {
+      option.value = '';
+    }
 
     serviceTypeInput.append(option);
   }
@@ -59,6 +69,7 @@ function createForm() {
   const submitBtn = document.createElement('button');
   submitBtn.classList.add('service-form-submitBtn');
   submitBtn.textContent = 'Create Service';
+  submitBtn.type = 'submit';
 
   const exitContainer = document.createElement('div');
   exitContainer.classList.add('exit-container');
@@ -66,11 +77,42 @@ function createForm() {
   exitImage.classList.add('exit-icon');
   exitImage.src = '/img/exit.png';
 
+  exitContainer.addEventListener('click', (e) => {
+    e.preventDefault();
+    console.log('exit clicked');
+    function formDisappear() {
+      formContainer.style.height = '0px';
+    }
+    requestAnimationFrame(formDisappear);
+    formContainer.classList.add('not-displayed');
+  });
+
+  formContainer.addEventListener('submit', (e) => {
+    e.preventDefault();
+    currentService.title = serviceTitleInput.value;
+    currentService.date = selectDate.value;
+    currentService.serviceType = serviceTypeInput.value;
+
+    const serviceTitle = document.querySelector('.current-service');
+
+    serviceTitle.textContent = `${currentService.title}-${currentService.date}(${currentService.serviceType})`;
+
+    formContainer.classList.add('not-displayed');
+  });
+
+  function formPopup() {
+    formContainer.style.height = '300px';
+    titleInputContainer.style.opacity = '1';
+    serviceTypeContainer.style.opacity = '1';
+  }
+
+  requestAnimationFrame(formPopup);
+
   exitContainer.append(exitImage);
 
   serviceTypeContainer.append(serviceTypeLabel, serviceTypeInput);
 
-  formContainer.append(serviceTitleLabel, serviceTypeContainer, submitBtn, exitContainer);
+  formContainer.append(serviceTypeContainer, submitBtn, exitContainer);
 
   titleInputContainer.append(formTitle, serviceTitleLabel, serviceTitleInput, dateLabel, selectDate);
   formContainer.append(titleInputContainer);
@@ -78,3 +120,9 @@ function createForm() {
 }
 
 const options = ['Select Service Type', 'Sunday', 'Tuesday', 'Santa Cena', 'Vigilia'];
+
+let currentService = {
+  title: '',
+  date: '',
+  serviceType: ''
+}
