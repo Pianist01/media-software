@@ -221,6 +221,8 @@ main {
   align-self: center;
   justify-self: center;
   border-radius: 8px;
+  opacity: 0;
+  transition: opacity .2s ease-out;
 }
 
 .exit-container {

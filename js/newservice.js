@@ -82,11 +82,16 @@ function createForm() {
     console.log('exit clicked');
     function formDisappear() {
       formContainer.style.height = '0px';
+      titleInputContainer.style.opacity = '0';
+      serviceTypeContainer.style.opacity = '0';
+      submitBtn.style.opacity = '0';
     }
     requestAnimationFrame(formDisappear);
-    formContainer.classList.add('not-displayed');
-  });
+    setTimeout(() => {
+      formContainer.classList.add('not-displayed');
+    }, 1000);
 
+  });
   formContainer.addEventListener('submit', (e) => {
     e.preventDefault();
     currentService.title = serviceTitleInput.value;
@@ -104,6 +109,7 @@ function createForm() {
     formContainer.style.height = '300px';
     titleInputContainer.style.opacity = '1';
     serviceTypeContainer.style.opacity = '1';
+    submitBtn.style.opacity = '1';
   }
 
   requestAnimationFrame(formPopup);
@@ -119,7 +125,7 @@ function createForm() {
   body.append(formContainer);
 }
 
-const options = ['Select Service Type', 'Sunday', 'Tuesday', 'Santa Cena', 'Vigilia'];
+const options = ['Select Service Type', 'Sunday', 'Tuesday', 'Santa Cena', 'Vigilia', 'Other'];
 
 let currentService = {
   title: '',
