@@ -1,0 +1,121 @@
+export function createSongPanel() {
+    addSong();
+}
+
+function addSong() {
+    const panel = document.querySelector('.panel');
+    const addSongBtn = document.querySelector('.add-song-btn');
+    addSongBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log('Song Button Clicked');
+
+        const songPanelContainer = document.createElement('div');
+        songPanelContainer.classList.add('song-panel-container');
+
+        const searchFormContainer = document.createElement('search');
+        searchFormContainer.classList.add('search-form-container');
+
+        const searchForm = document.createElement('form');
+        searchForm.classList.add('search-form');
+
+        const searchInput = document.createElement('input');
+        searchInput.classList.add('search-input');
+        searchInput.type = 'search';
+        searchInput.placeholder = 'Search for a song';
+
+        const exitBtn = document.createElement('button');
+        exitBtn.classList.add('exit-btn');
+        exitBtn.textContent = 'X';
+
+        exitBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            songPanelContainer.style.display = 'none';
+            songPanelContainer.remove();
+        });
+
+        searchForm.append(searchInput);
+        searchFormContainer.append(searchForm, exitBtn);
+        songPanelContainer.append(searchFormContainer);
+        panel.append(songPanelContainer);
+
+        // Song List
+
+
+    }); 
+}
+
+let songList = [
+    {
+        id: 1,
+        title: 'No Hay Lugar Más Alto',
+        author: 'Miel San Marcos',
+        sections: [
+            {
+                name: 'Verse',
+                lyrics: 'A tus pies, arde mi corazon, a tus pies entrego lo que soy'
+            },
+            {
+                name: 'Verse',
+                lyrics: 'Ese lugar de mi seguridad, donde nadie me puede senalar'
+            },
+            {
+                name: 'Pre-Chorus',
+                lyrics: 'Me perdonaste, me acercaste a tu presencia, me levantaste hoy me postro a adorarte'
+            },
+            {
+                name: 'Chorus',
+                lyrics: 'No hay lugar mas alto, mas grande. Que estar a tus pies, que estar a tus pies.'
+            },
+            {
+                name: 'Verse',
+                lyrics: 'A tus pies, arde mi corazon, a tus pies te entrego lo que soy'
+            },
+            {
+               name: 'Bridge',
+               lyrics: 'Y aqui permanecere postrado a tus pies, y aqui permanecere a los pies de Cristo'
+            }
+        ]
+    },
+    {
+        id: 2,
+        title: 'Yo te Busco',
+        author: 'Marcos Whitt',
+        sections: [
+            {
+                name: 'Verse',
+                lyrics: 'Yo te busco, yo te busco, con fuego en mi corazon'
+            },
+            {
+                name: 'Verse',
+                lyrics: 'Yo te busco, yo te busco, recibe mi adoracion'
+            },
+            {
+                name: 'Chorus',
+                lyrics: 'Te anhelo te necesito, te amo mas que a mi ser'
+            }
+        ]
+    },
+    {
+        id: 3,
+        title: 'Padre Nuestro',
+        author: 'Marcos Brunet',
+        sections: [
+            {
+                name: 'Verse',
+                lyrics: 'Padre nuestro, del cielo tu nombre santo es que tu reino venga pronto, y tu voluntad tambien'
+            },
+            {
+                name: 'Pre-Chorus',
+                lyrics: 'Aqui, como en el cielo que el cielo venga aqui'
+            },
+            {
+                name: 'Pre-Chorus',
+                lyrics: 'El cielo aqui'
+            },
+            {
+                name: 'Chorus',
+                lyrics: 'Tuyo es el reino tuyo, el poder tuya es la gloria por siempre amen'
+            }
+        ]
+    }
+]
