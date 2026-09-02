@@ -260,4 +260,8 @@ main {
   z-index: 10;
 }
 
+.song-list-li:hover {
+  cursor: pointer;
+}
+
 /* FOOTER */

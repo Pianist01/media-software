@@ -40,6 +40,36 @@ function addSong() {
 
         // Song List
 
+        let selectedSong;
+        let currentSectionIndex = 0;
+
+        const songListContainer = document.createElement('div');
+        songListContainer.classList.add('song-list-container');
+        const songListUL = document.createElement('ul');
+        songListUL.classList.add('song-list-ul');
+        const songPreviewText = document.querySelector('.preview-text');
+
+        for(const value of Object.values(songList)) {
+            console.log(`Song Title: ${value.title}`);
+            const songListLI = document.createElement('li');
+            songListLI.classList.add('song-list-li');
+            songListLI.textContent = value.title;
+            songListUL.append(songListLI);
+
+            songListLI.addEventListener('click', (e) => {
+                e.preventDefault();
+                currentSectionIndex = 0;
+                console.log(`Song Selected: ${value.title}`);
+                selectedSong = value;
+                console.log(value.sections);
+                console.log(currentSectionIndex);
+                console.log('Song is at:', value.sections.at(currentSectionIndex).lyrics);
+                songPreviewText.textContent = selectedSong.sections[currentSectionIndex].lyrics;
+            });
+        }
+        songListContainer.append(songListUL);
+        songPanelContainer.append(songListContainer);
+
 
     }); 
 }
