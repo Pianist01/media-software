@@ -27,6 +27,10 @@ function addSong() {
         exitBtn.classList.add('exit-btn');
         exitBtn.textContent = 'X';
 
+        const addNewSongBtn = document.createElement('button');
+        addNewSongBtn.classList.add('add-new-song-btn');
+        addNewSongBtn.textContent = 'Add New Song';
+
         exitBtn.addEventListener('click', (e) => {
             e.preventDefault();
             songPanelContainer.style.display = 'none';
@@ -35,7 +39,7 @@ function addSong() {
 
         searchForm.append(searchInput);
         searchFormContainer.append(searchForm, exitBtn);
-        songPanelContainer.append(searchFormContainer);
+        songPanelContainer.append(searchFormContainer, addNewSongBtn);
         panel.append(songPanelContainer);
 
         // Song List
@@ -51,6 +55,7 @@ function addSong() {
         const backBtn = document.querySelector('.back-btn');
         backBtn.disabled = true;
         const nextBtn = document.querySelector('.next-btn');
+        nextBtn.disabled = true;
 
         for(const value of Object.values(songList)) {
             console.log(`Song Title: ${value.title}`);
@@ -68,45 +73,67 @@ function addSong() {
                 console.log(currentSectionIndex);
                 console.log('Song is at:', value.sections.at(currentSectionIndex).lyrics);
                 songPreviewText.textContent = selectedSong.sections[currentSectionIndex].lyrics;
+                buttonState();
 
-                nextBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    currentSectionIndex++;
-                    if(currentSectionIndex < selectedSong.sections.length) {
-                        console.log(currentSectionIndex);
-                        songPreviewText.textContent = selectedSong.sections[currentSectionIndex].lyrics;
-                    }
-
-                    if(currentSectionIndex >= selectedSong.sections.length - 1) {
-                        nextBtn.disabled = true;
-                        console.log('Next button disabled');
-                    } 
-                    
-                    if(currentSectionIndex < selectedSong.sections.length - 1) {
-                        nextBtn.disabled = false;
-                        console.log('Next button enabled');
-                    }
-                });
-
-                backBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    currentSectionIndex--;
-                    if(currentSectionIndex >= 0) {
-                        console.log(currentSectionIndex);
-                        songPreviewText.textContent = selectedSong.sections[currentSectionIndex].lyrics;
-                    }
-
-                    if(currentSectionIndex > 0) {
-                        backBtn.disabled = false;
-                    }
-                });
             });
         }
         songListContainer.append(songListUL);
         songPanelContainer.append(songListContainer);
 
+        nextBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    currentSectionIndex++;
+                    console.log(currentSectionIndex);
+                    songPreviewText.textContent = selectedSong.sections[currentSectionIndex].lyrics;
+                    buttonState();
+                });
 
+                backBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    currentSectionIndex--;
+                    console.log(currentSectionIndex);
+                    songPreviewText.textContent = selectedSong.sections[currentSectionIndex].lyrics;
+                    buttonState();
+                });
+
+
+
+         function buttonState() {
+        if(selectedSong.sections.length === 1) {
+            backBtn.disabled = true;
+            nextBtn.disabled = true;
+        } else if(currentSectionIndex === 0) {
+            backBtn.disabled = true;
+            nextBtn.disabled = false;
+        } else if(currentSectionIndex > 0 && currentSectionIndex < selectedSong.sections.length - 1) {
+            backBtn.disabled = false;
+            nextBtn.disabled = false;
+        } else if(currentSectionIndex === selectedSong.sections.length - 1) {
+            nextBtn.disabled = true;
+            backBtn.disabled = false;
+        } 
+    }
     }); 
+
+}
+
+function createNewSong() {
+    const newSongFormContainer = document.createElement('div');
+    newSongFormContainer.classList.add('new-song-form-container');
+
+    const newSongForm = document.createElement('form');
+    newSongForm.classList.add('new-song-form');
+
+    const songTitleLabel = document.createElement('label');
+    songTitleLabel.classList.add('song-title-label');
+    songTitleLabel.textContent = 'Song Title:';
+
+    const songTitleInput = document.createElement('input');
+    songTitleInput.classList.add('song-title-input');
+    songTitleInput.placeholder = 'Te Doy Gloria';
+    songTitleInput.required = true;
+
+
 }
 
 let songList = [
