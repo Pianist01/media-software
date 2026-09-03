@@ -48,6 +48,9 @@ function addSong() {
         const songListUL = document.createElement('ul');
         songListUL.classList.add('song-list-ul');
         const songPreviewText = document.querySelector('.preview-text');
+        const backBtn = document.querySelector('.back-btn');
+        backBtn.disabled = true;
+        const nextBtn = document.querySelector('.next-btn');
 
         for(const value of Object.values(songList)) {
             console.log(`Song Title: ${value.title}`);
@@ -65,6 +68,38 @@ function addSong() {
                 console.log(currentSectionIndex);
                 console.log('Song is at:', value.sections.at(currentSectionIndex).lyrics);
                 songPreviewText.textContent = selectedSong.sections[currentSectionIndex].lyrics;
+
+                nextBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    currentSectionIndex++;
+                    if(currentSectionIndex < selectedSong.sections.length) {
+                        console.log(currentSectionIndex);
+                        songPreviewText.textContent = selectedSong.sections[currentSectionIndex].lyrics;
+                    }
+
+                    if(currentSectionIndex >= selectedSong.sections.length - 1) {
+                        nextBtn.disabled = true;
+                        console.log('Next button disabled');
+                    } 
+                    
+                    if(currentSectionIndex < selectedSong.sections.length - 1) {
+                        nextBtn.disabled = false;
+                        console.log('Next button enabled');
+                    }
+                });
+
+                backBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    currentSectionIndex--;
+                    if(currentSectionIndex >= 0) {
+                        console.log(currentSectionIndex);
+                        songPreviewText.textContent = selectedSong.sections[currentSectionIndex].lyrics;
+                    }
+
+                    if(currentSectionIndex > 0) {
+                        backBtn.disabled = false;
+                    }
+                });
             });
         }
         songListContainer.append(songListUL);
