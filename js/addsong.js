@@ -31,6 +31,11 @@ function addSong() {
         addNewSongBtn.classList.add('add-new-song-btn');
         addNewSongBtn.textContent = 'Add New Song';
 
+        addNewSongBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            createNewSong();
+        });
+
         exitBtn.addEventListener('click', (e) => {
             e.preventDefault();
             songPanelContainer.style.display = 'none';
@@ -118,6 +123,7 @@ function addSong() {
 }
 
 function createNewSong() {
+    const body = document.querySelector('body');
     const newSongFormContainer = document.createElement('div');
     newSongFormContainer.classList.add('new-song-form-container');
 
@@ -133,6 +139,49 @@ function createNewSong() {
     songTitleInput.placeholder = 'Te Doy Gloria';
     songTitleInput.required = true;
 
+    const songAuthorLabel = document.createElement('label');
+    songAuthorLabel.classList.add('song-author-label');
+    songAuthorLabel.textContent = 'Author:';
+
+    const songAuthorInput = document.createElement('input');
+    songAuthorInput.classList.add('song-author-input');
+    songAuthorInput.placeholder = 'Miel San Marcos';
+    songAuthorInput.required = true;
+
+    const lyricTypeContainer = document.createElement('div');
+    lyricTypeContainer.classList.add('lyric-type-container');
+
+    const lyricTypeLabel = document.createElement('label');
+    lyricTypeLabel.classList.add('lyric-type-label');
+    lyricTypeLabel.textContent = 'Section:';
+
+    const lyricTypeInput = document.createElement('select');
+    lyricTypeInput.classList.add('lyric-type-dropdown');
+    lyricTypeInput.required = true;
+
+    for(let i = 0; i < lyricTypeOptions.length; i++) {
+        const option = document.createElement('option');
+        option.classList.add('lyric-type-option');
+        option.textContent = lyricTypeOptions[i];
+
+        if(i === 0) {
+            option.value = '';
+        }
+
+        lyricTypeInput.append(option);
+    }
+
+    const submitBtn = document.createElement('button');
+    submitBtn.classList.add('new-song-submit-btn');
+    submitBtn.textContent = 'Add New Song';
+
+    lyricTypeContainer.append(lyricTypeLabel, lyricTypeInput);
+
+    newSongForm.append(songTitleLabel, songTitleInput, songAuthorLabel, songAuthorInput, lyricTypeContainer, submitBtn);
+
+    newSongFormContainer.append(newSongForm);
+
+    body.append(newSongFormContainer);
 
 }
 
@@ -211,3 +260,5 @@ let songList = [
         ]
     }
 ]
+
+let lyricTypeOptions = ['Lyric Type', 'Verse', 'Pre-Chorus', 'Chorus', 'Bridge'];
