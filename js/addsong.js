@@ -148,36 +148,125 @@ function createNewSong() {
     songAuthorInput.placeholder = 'Miel San Marcos';
     songAuthorInput.required = true;
 
-    const lyricTypeContainer = document.createElement('div');
-    lyricTypeContainer.classList.add('lyric-type-container');
-
-    const lyricTypeLabel = document.createElement('label');
-    lyricTypeLabel.classList.add('lyric-type-label');
-    lyricTypeLabel.textContent = 'Section:';
-
-    const lyricTypeInput = document.createElement('select');
-    lyricTypeInput.classList.add('lyric-type-dropdown');
-    lyricTypeInput.required = true;
-
-    for(let i = 0; i < lyricTypeOptions.length; i++) {
-        const option = document.createElement('option');
-        option.classList.add('lyric-type-option');
-        option.textContent = lyricTypeOptions[i];
-
-        if(i === 0) {
-            option.value = '';
-        }
-
-        lyricTypeInput.append(option);
-    }
-
     const submitBtn = document.createElement('button');
     submitBtn.classList.add('new-song-submit-btn');
     submitBtn.textContent = 'Add New Song';
 
-    lyricTypeContainer.append(lyricTypeLabel, lyricTypeInput);
+    const lyricsContainer = document.createElement('div');
+    lyricsContainer.classList.add('lyrics-container');
 
-    newSongForm.append(songTitleLabel, songTitleInput, songAuthorLabel, songAuthorInput, lyricTypeContainer, submitBtn);
+    const lyricsContainerLabel = document.createElement('label');
+    lyricsContainerLabel.classList.add('lyrics-container-label');
+    lyricsContainerLabel.textContent = 'Lyrics:';
+
+    const lyricsTextArea = document.createElement('textarea');
+    lyricsTextArea.classList.add('lyrics-textarea');
+    lyricsTextArea.required = true;
+    lyricsTextArea.readOnly = true;
+
+    const addSectionBtn = document.createElement('button');
+    addSectionBtn.classList.add('add-section-btn');
+    addSectionBtn.textContent = '+ Add Section/Lyric';
+
+    addSectionBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        addSection();
+    });
+
+    function addSection() {
+        const sectionContainer = document.createElement('div');
+        sectionContainer.classList.add('section-container');
+
+        const lyricTypeContainer = document.createElement('div');
+        lyricTypeContainer.classList.add('lyric-type-container');
+
+        const lyricTypeLabel = document.createElement('label');
+        lyricTypeLabel.classList.add('lyric-type-label');
+        lyricTypeLabel.textContent = 'Section:';
+
+        const lyricTypeInput = document.createElement('select');
+        lyricTypeInput.classList.add('lyric-type-dropdown');
+        lyricTypeInput.required = true;
+
+        for(let i = 0; i < lyricTypeOptions.length; i++) {
+            const option = document.createElement('option');
+            option.classList.add('lyric-type-option');
+            option.textContent = lyricTypeOptions[i];
+
+            if(i === 0) {
+                option.value = '';
+            }
+
+        lyricTypeInput.append(option);
+        }
+
+        const textAreaContainer = document.createElement('div');
+        textAreaContainer.classList.add('popup-lyric-container');
+
+        const lyricTextArea = document.createElement('textarea');
+        lyricTextArea.classList.add('lyric-textarea');
+        lyricTextArea.required = true;
+
+        const addNewSectionBtn = document.createElement('button');
+        addNewSectionBtn.classList.add('add-new-section-btn');
+        addNewSectionBtn.type = 'button';
+        addNewSectionBtn.textContent = 'Add New Section';
+
+        addNewSectionBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const addedLyricTypeContainer = document.createElement('div');
+            addedLyricTypeContainer.classList.add('added-lyric-type-container');
+
+            const addedLyricTypeLabel = document.createElement('label');
+            addedLyricTypeLabel.classList.add('added-lyrictype-label');
+            addedLyricTypeLabel.textContent = 'Section: ';
+
+            const addedLyricTypeInput = document.createElement('select');
+            addedLyricTypeInput.classList.add('added-lyrictype-dropdown');
+            addedLyricTypeInput.required = true;
+
+            for(let i = 0; i < lyricTypeOptions.length; i++) {
+                const option = document.createElement('option');
+                option.classList.add('lyric-type-option');
+                option.textContent = lyricTypeOptions[i];
+
+                if(i === 0) {
+                option.value = '';
+                }
+
+            addedLyricTypeInput.append(option);
+            }
+
+            addedLyricTypeContainer.append(addedLyricTypeLabel, addedLyricTypeInput);
+
+            const addedSectionTextArea = document.createElement('textarea');
+            addedSectionTextArea.classList.add('lyric-textarea');
+            textAreaContainer.append(addedLyricTypeContainer, addedSectionTextArea);
+        });
+
+        const saveLyricsBtn = document.createElement('button');
+        saveLyricsBtn.classList.add('save-lyrics-btn');
+        saveLyricsBtn.type = 'button';
+        saveLyricsBtn.textContent = 'Save Lyrics';
+
+        const closePopUp = document.createElement('button');
+        closePopUp.classList.add('close-popup-btn');
+        closePopUp.textContent = 'X';
+
+        closePopUp.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log('exit clicked');
+            sectionContainer.remove();
+        });
+        textAreaContainer.append(lyricTextArea);
+        lyricTypeContainer.append(lyricTypeLabel, lyricTypeInput);
+        sectionContainer.append(lyricTypeContainer, textAreaContainer, addNewSectionBtn, saveLyricsBtn, closePopUp);
+        body.append(sectionContainer);
+    }
+
+    lyricsContainer.append(lyricsContainerLabel, lyricsTextArea, addSectionBtn);
+
+    newSongForm.append(songTitleLabel, songTitleInput, songAuthorLabel, songAuthorInput, lyricsContainer, submitBtn);
 
     newSongFormContainer.append(newSongForm);
 
@@ -262,3 +351,10 @@ let songList = [
 ]
 
 let lyricTypeOptions = ['Lyric Type', 'Verse', 'Pre-Chorus', 'Chorus', 'Bridge'];
+
+let addedSong = {
+    id: 4,
+    title: '',
+    author: '',
+    sections: []
+}
