@@ -207,6 +207,7 @@ function createNewSong() {
         lyricTextArea.classList.add('lyric-textarea');
         lyricTextArea.required = true;
 
+
         const addNewSectionBtn = document.createElement('button');
         addNewSectionBtn.classList.add('add-new-section-btn');
         addNewSectionBtn.type = 'button';
@@ -214,15 +215,13 @@ function createNewSong() {
 
         addNewSectionBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            const addedLyricTypeContainer = document.createElement('div');
-            addedLyricTypeContainer.classList.add('added-lyric-type-container');
 
             const addedLyricTypeLabel = document.createElement('label');
             addedLyricTypeLabel.classList.add('added-lyrictype-label');
             addedLyricTypeLabel.textContent = 'Section: ';
 
             const addedLyricTypeInput = document.createElement('select');
-            addedLyricTypeInput.classList.add('added-lyrictype-dropdown');
+            addedLyricTypeInput.classList.add('lyric-type-dropdown');
             addedLyricTypeInput.required = true;
 
             for(let i = 0; i < lyricTypeOptions.length; i++) {
@@ -237,17 +236,36 @@ function createNewSong() {
             addedLyricTypeInput.append(option);
             }
 
-            addedLyricTypeContainer.append(addedLyricTypeLabel, addedLyricTypeInput);
+            lyricTypeContainer.append(addedLyricTypeLabel, addedLyricTypeInput);
 
             const addedSectionTextArea = document.createElement('textarea');
             addedSectionTextArea.classList.add('lyric-textarea');
-            textAreaContainer.append(addedLyricTypeContainer, addedSectionTextArea);
+            addedSectionTextArea.required = true;
+            
+            textAreaContainer.append(addedSectionTextArea);
         });
 
         const saveLyricsBtn = document.createElement('button');
         saveLyricsBtn.classList.add('save-lyrics-btn');
         saveLyricsBtn.type = 'button';
         saveLyricsBtn.textContent = 'Save Lyrics';
+
+        // Once user clicks this btn, lyrics will then be displayed in text container in add new song form
+        saveLyricsBtn.addEventListener('click', () => {
+            // sectionContainer.remove();
+            const newSection = {
+                name: '',
+                lyrics: ''
+            }
+            document.querySelectorAll('.lyric-type-dropdown').forEach((type) => {
+                newSection.name = type.value;
+            });
+            document.querySelectorAll('.lyric-textarea').forEach((lyric) => {
+                newSection.lyrics = lyric.value;
+            });
+            addedSong.sections.push(newSection);
+            console.log(textAreaContainer);
+        });
 
         const closePopUp = document.createElement('button');
         closePopUp.classList.add('close-popup-btn');
