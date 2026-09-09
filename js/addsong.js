@@ -2,6 +2,7 @@ export function createSongPanel() {
     addSong();
 }
 
+// ----- MAIN SONG FORM -----
 function addSong() {
     const panel = document.querySelector('.panel');
     const addSongBtn = document.querySelector('.add-song-btn');
@@ -47,7 +48,7 @@ function addSong() {
         songPanelContainer.append(searchFormContainer, addNewSongBtn);
         panel.append(songPanelContainer);
 
-        // Song List
+        // CREATE SONG LIST
 
         let selectedSong;
         let currentSectionIndex = 0;
@@ -122,6 +123,8 @@ function addSong() {
 
 }
 
+// ----- ADD NEW SONG FORM ----- 
+
 function createNewSong() {
     const body = document.querySelector('body');
     const newSongFormContainer = document.createElement('div');
@@ -168,10 +171,13 @@ function createNewSong() {
     addSectionBtn.classList.add('add-section-btn');
     addSectionBtn.textContent = '+ Add Section/Lyric';
 
+        // Opens Popup To add Lyrics
     addSectionBtn.addEventListener('click', (e) => {
         e.preventDefault();
         addSection();
     });
+
+    // ----- POPUP FOR INPUTING LYRICS -----
 
     function addSection() {
         const sectionContainer = document.createElement('div');
@@ -204,20 +210,18 @@ function createNewSong() {
         }
 
 
-        // const textAreaContainer = document.createElement('div');
-        // textAreaContainer.classList.add('popup-lyric-container');
-
         const lyricTextArea = document.createElement('textarea');
         lyricTextArea.classList.add('lyric-textarea');
         lyricTextArea.required = true;
 
-        // lyricTextTypeContainer.append(lyricTypeContainer, lyricTextArea)
 
 
         const addNewSectionBtn = document.createElement('button');
         addNewSectionBtn.classList.add('add-new-section-btn');
         addNewSectionBtn.type = 'button';
         addNewSectionBtn.textContent = 'Add New Section';
+
+        // ----- WHEN CLICKED ALLOWS USER TO ADD MORE LYRICS -----
 
         addNewSectionBtn.addEventListener('click', (e) => {
             e.preventDefault();
@@ -264,7 +268,8 @@ function createNewSong() {
         saveLyricsBtn.type = 'button';
         saveLyricsBtn.textContent = 'Save Lyrics';
 
-        // Once user clicks this btn, lyrics will then be displayed in text container in add new song form
+        // When user clicks save lyrics, data is then added to a temporary object which is then displayed on the
+        // Text area where user can finish preparing song to be added to song list
         saveLyricsBtn.addEventListener('click', () => {
             document.querySelectorAll('.lyric-type-text-container').forEach((item, index) => {
                 console.log(`Currently at index ${index} for item ${item}`);
@@ -277,13 +282,15 @@ function createNewSong() {
 
                 addedSong.sections.push(newSection);
             });
-            // Left off here, continue here Steven
+        
             console.log(addedSong);
             const sectionFormatted = addedSong.sections.map((section) => {
-                return `${section.name}:\n ${section.lyrics}`;
+                return `${section.name}:\n ${section.lyrics}\n`;
             });
-            console.log(sectionFormatted.join());
+            console.log(sectionFormatted.join(' '));
+            console.log(sectionFormatted);
             console.log(lyricsTextArea);
+            lyricsTextArea.value = sectionFormatted.join(' ');
             sectionContainer.remove();
         });
 
@@ -301,6 +308,15 @@ function createNewSong() {
         sectionContainer.append(lyricTextTypeContainer, addNewSectionBtn, saveLyricsBtn, closePopUp);
         body.append(sectionContainer);
     }
+
+    // This portion submits the new song and adds Song name and author data into the temporary object that lyrics has
+
+    submitBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        addedSong.title = songTitleInput.value;
+        addedSong.author = songAuthorInput.value;
+        console.log(addedSong);
+    })
 
     lyricsContainer.append(lyricsContainerLabel, lyricsTextArea, addSectionBtn);
 
