@@ -2,6 +2,8 @@ export function createSongPanel() {
     addSong();
 }
 
+let songListUL;
+
 // ----- MAIN SONG FORM -----
 function addSong() {
     const panel = document.querySelector('.panel');
@@ -55,7 +57,7 @@ function addSong() {
 
         const songListContainer = document.createElement('div');
         songListContainer.classList.add('song-list-container');
-        const songListUL = document.createElement('ul');
+        songListUL = document.createElement('ul');
         songListUL.classList.add('song-list-ul');
         const songPreviewText = document.querySelector('.preview-text');
         const backBtn = document.querySelector('.back-btn');
@@ -153,6 +155,7 @@ function createNewSong() {
 
     const submitBtn = document.createElement('button');
     submitBtn.classList.add('new-song-submit-btn');
+    submitBtn.type = 'submit';
     submitBtn.textContent = 'Add New Song';
 
     const lyricsContainer = document.createElement('div');
@@ -315,8 +318,12 @@ function createNewSong() {
         e.preventDefault();
         addedSong.title = songTitleInput.value;
         addedSong.author = songAuthorInput.value;
+        console.log('Submit btn clicked');
         console.log(addedSong);
-    })
+        songList.push(addedSong);
+        console.log(songList);
+        addSong();
+    });
 
     lyricsContainer.append(lyricsContainerLabel, lyricsTextArea, addSectionBtn);
 
@@ -411,4 +418,8 @@ let addedSong = {
     title: '',
     author: '',
     sections: []
+}
+
+function addSongToList() {
+
 }
