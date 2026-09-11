@@ -89,6 +89,10 @@ h1 {
   color: black;
 }
 
+li:hover {
+  cursor: pointer;
+}
+
 /* BODY */
 
 body {

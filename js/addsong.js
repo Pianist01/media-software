@@ -3,6 +3,8 @@ export function createSongPanel() {
 }
 
 let songListUL;
+let selectedSong;
+let currentSectionIndex;
 
 // ----- MAIN SONG FORM -----
 function addSong() {
@@ -52,8 +54,7 @@ function addSong() {
 
         // CREATE SONG LIST
 
-        let selectedSong;
-        let currentSectionIndex = 0;
+        currentSectionIndex = 0;
 
         const songListContainer = document.createElement('div');
         songListContainer.classList.add('song-list-container');
@@ -316,13 +317,21 @@ function createNewSong() {
 
     submitBtn.addEventListener('click', (e) => {
         e.preventDefault();
+        addedSong.id = songList.length;
         addedSong.title = songTitleInput.value;
         addedSong.author = songAuthorInput.value;
         console.log('Submit btn clicked');
         console.log(addedSong);
         songList.push(addedSong);
         console.log(songList);
-        addSong();
+        renderSong(addedSong);
+        newSongFormContainer.remove();
+        addedSong = {
+            id: '',
+            title: '',
+            author: '',
+            sections: []
+        }
     });
 
     lyricsContainer.append(lyricsContainerLabel, lyricsTextArea, addSectionBtn);
@@ -337,7 +346,7 @@ function createNewSong() {
 
 let songList = [
     {
-        id: 1,
+        id: 0,
         title: 'No Hay Lugar Más Alto',
         author: 'Miel San Marcos',
         sections: [
@@ -368,7 +377,7 @@ let songList = [
         ]
     },
     {
-        id: 2,
+        id: 1,
         title: 'Yo te Busco',
         author: 'Marcos Whitt',
         sections: [
@@ -387,7 +396,7 @@ let songList = [
         ]
     },
     {
-        id: 3,
+        id: 2,
         title: 'Padre Nuestro',
         author: 'Marcos Brunet',
         sections: [
@@ -414,12 +423,43 @@ let songList = [
 let lyricTypeOptions = ['Lyric Type', 'Verse', 'Pre-Chorus', 'Chorus', 'Bridge'];
 
 let addedSong = {
-    id: 4,
+    id: '',
     title: '',
     author: '',
     sections: []
 }
 
-function addSongToList() {
+function renderSong(song) {
+    const addedNextBtn = document.querySelector('.next-btn');
+    const addedBackBtn = document.querySelector('.back-btn');
+    const addedSongPreviewText = document.querySelector('.preview-text');
+    const renderLi = document.createElement('li');
+    renderLi.textContent = song.title;
+    songListUL.append(renderLi);
 
+    renderLi.addEventListener('click', (e) => {
+        e.preventDefault();
+        currentSectionIndex = 0;
+        selectedSong = song;
+        console.log('Song is at:', selectedSong.sections.at(currentSectionIndex).lyrics);
+        addedSongPreviewText.textContent = selectedSong.sections[currentSectionIndex].lyrics;
+        console.log('Song clicked');
+        addedBtnState();
+    });
+
+    function addedBtnState() {
+           if(selectedSong.sections.length === 1) {
+            addedBackBtn.disabled = true;
+            addedNextBtn.disabled = true;
+        } else if(currentSectionIndex === 0) {
+            addedBackBtn.disabled = true;
+            addedNextBtn.disabled = false;
+        } else if(currentSectionIndex > 0 && currentSectionIndex < selectedSong.sections.length - 1) {
+            addedBackBtn.disabled = false;
+            addedNextBtn.disabled = false;
+        } else if(currentSectionIndex === selectedSong.sections.length - 1) {
+            addedNextBtn.disabled = true;
+            addedBackBtn.disabled = false;
+        } 
+        }
 }
