@@ -82,6 +82,8 @@ function addSong() {
                 console.log(currentSectionIndex);
                 console.log('Song is at:', value.sections.at(currentSectionIndex).lyrics);
                 songPreviewText.textContent = selectedSong.sections[currentSectionIndex].lyrics;
+                const liveBtn = document.querySelector('.live-btn');
+                liveBtn.disabled = false;
                 buttonState();
 
             });
@@ -317,7 +319,11 @@ function createNewSong() {
 
     submitBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        addedSong.id = songList.length;
+        if(songList.length === 0) {
+            addedSong.id = 1;
+        } else {
+            addedSong.id = songList[songList.length - 1].id + 1;
+        }
         addedSong.title = songTitleInput.value;
         addedSong.author = songAuthorInput.value;
         console.log('Submit btn clicked');
@@ -346,7 +352,7 @@ function createNewSong() {
 
 let songList = [
     {
-        id: 0,
+        id: 1,
         title: 'No Hay Lugar Más Alto',
         author: 'Miel San Marcos',
         sections: [
@@ -377,7 +383,7 @@ let songList = [
         ]
     },
     {
-        id: 1,
+        id: 2,
         title: 'Yo te Busco',
         author: 'Marcos Whitt',
         sections: [
@@ -396,7 +402,7 @@ let songList = [
         ]
     },
     {
-        id: 2,
+        id: 3,
         title: 'Padre Nuestro',
         author: 'Marcos Brunet',
         sections: [
@@ -462,4 +468,8 @@ function renderSong(song) {
             addedBackBtn.disabled = false;
         } 
         }
+}
+
+function goLive() {
+
 }
