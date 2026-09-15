@@ -6,13 +6,14 @@ let songListUL;
 let selectedSong;
 let currentSectionIndex;
 const liveTextScreen = document.querySelector('.live-text');
+let isLive;
 
 // ----- MAIN SONG FORM -----
 function addSong() {
     const panel = document.querySelector('.panel');
     const addSongBtn = document.querySelector('.add-song-btn');
     const liveBtn = document.querySelector('.live-btn');
-    let wasClicked = false;
+    isLive = false;
     addSongBtn.addEventListener('click', (e) => {
         e.preventDefault();
         console.log('Song Button Clicked');
@@ -79,6 +80,7 @@ function addSong() {
             songListLI.addEventListener('click', (e) => {
                 e.preventDefault();
                 currentSectionIndex = 0;
+                isLive = false;
                 console.log(`Song Selected: ${value.title}`);
                 selectedSong = value;
                 console.log(value.sections);
@@ -86,7 +88,6 @@ function addSong() {
                 console.log('Song is at:', value.sections.at(currentSectionIndex).lyrics);
                 songPreviewText.textContent = selectedSong.sections[currentSectionIndex].lyrics;
                 liveBtn.disabled = false;
-                if(wasClicked)
                 buttonState();
 
             });
@@ -99,7 +100,9 @@ function addSong() {
                     currentSectionIndex++;
                     console.log(currentSectionIndex);
                     songPreviewText.textContent = selectedSong.sections[currentSectionIndex].lyrics;
-                    goLive();
+                    if(isLive === true) {
+                        liveTextScreen.textContent = selectedSong.sections[currentSectionIndex].lyrics;
+                    }
                     buttonState();
                 });
 
@@ -108,14 +111,17 @@ function addSong() {
                     currentSectionIndex--;
                     console.log(currentSectionIndex);
                     songPreviewText.textContent = selectedSong.sections[currentSectionIndex].lyrics;
-                    goLive();
+                    if(isLive === true) {
+                        liveTextScreen.textContent = selectedSong.sections[currentSectionIndex].lyrics;
+                     }
                     buttonState();
                 });
 
 
         liveBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            goLive();
+            isLive = true;
+            liveTextScreen.textContent = selectedSong.sections[currentSectionIndex].lyrics;
         });
 
 
@@ -460,6 +466,7 @@ function renderSong(song) {
         console.log('Song is at:', selectedSong.sections.at(currentSectionIndex).lyrics);
         addedSongPreviewText.textContent = selectedSong.sections[currentSectionIndex].lyrics;
         console.log('Song clicked');
+        isLive = false;
         addedBtnState();
     });
 
@@ -478,8 +485,4 @@ function renderSong(song) {
             addedBackBtn.disabled = false;
         } 
         }
-}
-
-function goLive() {
-    liveTextScreen.textContent = selectedSong.sections[currentSectionIndex].lyrics;
 }
