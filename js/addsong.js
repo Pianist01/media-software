@@ -5,11 +5,14 @@ export function createSongPanel() {
 let songListUL;
 let selectedSong;
 let currentSectionIndex;
+const liveTextScreen = document.querySelector('.live-text');
 
 // ----- MAIN SONG FORM -----
 function addSong() {
     const panel = document.querySelector('.panel');
     const addSongBtn = document.querySelector('.add-song-btn');
+    const liveBtn = document.querySelector('.live-btn');
+    let wasClicked = false;
     addSongBtn.addEventListener('click', (e) => {
         e.preventDefault();
         console.log('Song Button Clicked');
@@ -82,8 +85,8 @@ function addSong() {
                 console.log(currentSectionIndex);
                 console.log('Song is at:', value.sections.at(currentSectionIndex).lyrics);
                 songPreviewText.textContent = selectedSong.sections[currentSectionIndex].lyrics;
-                const liveBtn = document.querySelector('.live-btn');
                 liveBtn.disabled = false;
+                if(wasClicked)
                 buttonState();
 
             });
@@ -96,6 +99,7 @@ function addSong() {
                     currentSectionIndex++;
                     console.log(currentSectionIndex);
                     songPreviewText.textContent = selectedSong.sections[currentSectionIndex].lyrics;
+                    goLive();
                     buttonState();
                 });
 
@@ -104,9 +108,15 @@ function addSong() {
                     currentSectionIndex--;
                     console.log(currentSectionIndex);
                     songPreviewText.textContent = selectedSong.sections[currentSectionIndex].lyrics;
+                    goLive();
                     buttonState();
                 });
 
+
+        liveBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            goLive();
+        });
 
 
          function buttonState() {
@@ -471,5 +481,5 @@ function renderSong(song) {
 }
 
 function goLive() {
-
+    liveTextScreen.textContent = selectedSong.sections[currentSectionIndex].lyrics;
 }
