@@ -71,7 +71,7 @@ async function getDisplayBible() {
     translationDropdown.append(option);
   })
 
-  translationDropdown.addEventListener('change', (e) => {
+  translationDropdown.addEventListener('change', async (e) => {
     const selectedTranslation = e.target.value;
     console.log(selectedTranslation);
 
@@ -81,12 +81,37 @@ async function getDisplayBible() {
       throw new Error('The translation you are looking for is not available or does not exist')
     }
 
+    console.log(translationObject);
+
     const translationBooksLink = translationObject.listOfBooksApiLink;
-    if(typeof translationBooksLink !== 'string' && translationBooksLink !== '') {
+
+    console.log(typeof translationBooksLink);
+    if(typeof translationBooksLink !== 'string' || translationBooksLink === '') {
       throw new Error('Link is not a string and or is an empty string')
     }
 
-    console.log(translationObject);
+    const listOfBooksResponse = await fetch(`https://bible.helloao.org${translationBooksLink}`)
+
+    if(listOfBooksResponse.ok === false) {
+      throw new Error(`ERROR: ${listOfBooksResponse.status}`)
+    }
+
+    const listOfBooksData = await listOfBooksResponse.json()
+
+    console.log(listOfBooksData);
+
+    const booksUL = document.createElement('ul');
+    booksUL.classList.add('books-unorderedList');
+
+    listOfBooksData.books.forEach((book) => {
+      const bookList = document.createElement('li');
+      bookList.classList.add('book-list');
+
+      bookList.textContent = book.name;
+
+      booksUL.append(bookList);
+    })
+    biblePanelContainer.append(booksUL);
   })
 
   biblePanelContainer.append(translationDropdown);
