@@ -70,6 +70,25 @@ async function getDisplayBible() {
 
     translationDropdown.append(option);
   })
+
+  translationDropdown.addEventListener('change', (e) => {
+    const selectedTranslation = e.target.value;
+    console.log(selectedTranslation);
+
+    const translationObject = translationsData.translations.find((translation) => selectedTranslation === translation.id);
+
+    if(translationObject === undefined) {
+      throw new Error('The translation you are looking for is not available or does not exist')
+    }
+
+    const translationBooksLink = translationObject.listOfBooksApiLink;
+    if(typeof translationBooksLink !== 'string' && translationBooksLink !== '') {
+      throw new Error('Link is not a string and or is an empty string')
+    }
+
+    console.log(translationObject);
+  })
+
   biblePanelContainer.append(translationDropdown);
   translationsLoaded = true;
   } catch(error) {
