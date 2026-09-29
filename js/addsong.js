@@ -5,11 +5,15 @@ export function createSongPanel() {
 let songListUL;
 let selectedSong;
 let currentSectionIndex;
+const liveTextScreen = document.querySelector('.live-text');
+let isLive;
 
 // ----- MAIN SONG FORM -----
 function addSong() {
     const panel = document.querySelector('.panel');
     const addSongBtn = document.querySelector('.add-song-btn');
+    const liveBtn = document.querySelector('.live-btn');
+    isLive = false;
     addSongBtn.addEventListener('click', (e) => {
         e.preventDefault();
         console.log('Song Button Clicked');
@@ -76,12 +80,14 @@ function addSong() {
             songListLI.addEventListener('click', (e) => {
                 e.preventDefault();
                 currentSectionIndex = 0;
+                isLive = false;
                 console.log(`Song Selected: ${value.title}`);
                 selectedSong = value;
                 console.log(value.sections);
                 console.log(currentSectionIndex);
                 console.log('Song is at:', value.sections.at(currentSectionIndex).lyrics);
                 songPreviewText.textContent = selectedSong.sections[currentSectionIndex].lyrics;
+                liveBtn.disabled = false;
                 buttonState();
 
             });
@@ -94,6 +100,9 @@ function addSong() {
                     currentSectionIndex++;
                     console.log(currentSectionIndex);
                     songPreviewText.textContent = selectedSong.sections[currentSectionIndex].lyrics;
+                    if(isLive === true) {
+                        liveTextScreen.textContent = selectedSong.sections[currentSectionIndex].lyrics;
+                    }
                     buttonState();
                 });
 
@@ -102,9 +111,18 @@ function addSong() {
                     currentSectionIndex--;
                     console.log(currentSectionIndex);
                     songPreviewText.textContent = selectedSong.sections[currentSectionIndex].lyrics;
+                    if(isLive === true) {
+                        liveTextScreen.textContent = selectedSong.sections[currentSectionIndex].lyrics;
+                     }
                     buttonState();
                 });
 
+
+        liveBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            isLive = true;
+            liveTextScreen.textContent = selectedSong.sections[currentSectionIndex].lyrics;
+        });
 
 
          function buttonState() {
@@ -317,7 +335,11 @@ function createNewSong() {
 
     submitBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        addedSong.id = songList.length;
+        if(songList.length === 0) {
+            addedSong.id = 1;
+        } else {
+            addedSong.id = songList[songList.length - 1].id + 1;
+        }
         addedSong.title = songTitleInput.value;
         addedSong.author = songAuthorInput.value;
         console.log('Submit btn clicked');
@@ -346,7 +368,7 @@ function createNewSong() {
 
 let songList = [
     {
-        id: 0,
+        id: 1,
         title: 'No Hay Lugar Más Alto',
         author: 'Miel San Marcos',
         sections: [
@@ -377,7 +399,7 @@ let songList = [
         ]
     },
     {
-        id: 1,
+        id: 2,
         title: 'Yo te Busco',
         author: 'Marcos Whitt',
         sections: [
@@ -396,7 +418,7 @@ let songList = [
         ]
     },
     {
-        id: 2,
+        id: 3,
         title: 'Padre Nuestro',
         author: 'Marcos Brunet',
         sections: [
@@ -444,6 +466,7 @@ function renderSong(song) {
         console.log('Song is at:', selectedSong.sections.at(currentSectionIndex).lyrics);
         addedSongPreviewText.textContent = selectedSong.sections[currentSectionIndex].lyrics;
         console.log('Song clicked');
+        isLive = false;
         addedBtnState();
     });
 
