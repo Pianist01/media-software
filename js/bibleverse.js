@@ -12,9 +12,9 @@ const biblePanelBtn = document.querySelector('.bible-panel-btn');
 const biblePanelContainer = document.createElement('div');
 biblePanelContainer.classList.add('bible-panel-container');
 let translationsLoaded = false;
+const panel = document.querySelector('.panel');
 
 function showPanel() {
-  const panel = document.querySelector('.panel');
   const exitBtn = document.createElement('button');
   exitBtn.classList.add('bible-panel-exit-btn');
 
@@ -71,9 +71,14 @@ async function getDisplayBible() {
     translationDropdown.append(option);
   })
 
+  const booksUL = document.createElement('ul');
+  booksUL.classList.add('books-unorderedList');
+
   translationDropdown.addEventListener('change', async (e) => {
     const selectedTranslation = e.target.value;
     console.log(selectedTranslation);
+
+    booksUL.replaceChildren();
 
     const translationObject = translationsData.translations.find((translation) => selectedTranslation === translation.id);
 
@@ -100,18 +105,63 @@ async function getDisplayBible() {
 
     console.log(listOfBooksData);
 
-    const booksUL = document.createElement('ul');
-    booksUL.classList.add('books-unorderedList');
-
     listOfBooksData.books.forEach((book) => {
       const bookList = document.createElement('li');
       bookList.classList.add('book-list');
+      bookList.setAttribute('data-id', book.id);
 
       bookList.textContent = book.name;
 
       booksUL.append(bookList);
+      console.log(bookList);
     })
     biblePanelContainer.append(booksUL);
+
+    booksUL.addEventListener('click', (e) => {
+      const bookId = e.target.getAttribute('data-id');
+      console.log(bookId);
+      if(bookId === null) {
+        return;
+      }
+
+      function createBookPanel() {
+        const bookPanel = document.createElement('div');
+        bookPanel.classList.add('book-panel');
+        panel.append(bookPanel);
+
+        // Move book panel creation outside the function so it is only created once.
+        const bookPanelExit = document.createElement('div');
+        bookPanelExit.classList.add('book-panel-exit');
+
+        bookPanel.append(bookPanelExit);
+
+        function animateBookPanel() {
+          bookPanel.style.display = 'block';
+          bookPanelExit.style.display = 'block';
+          bookPanel.style.width = '100%';
+          bookPanelExit.style.opacity = '1';
+        }
+        requestAnimationFrame(animateBookPanel)
+
+        bookPanelExit.addEventListener('click', (e) => {
+          e.preventDefault();
+          function animateCloseBookPanel() {
+          bookPanel.style.width = '0';
+          bookPanelExit.style.opacity = '0';
+          setTimeout(() => {
+            bookPanel.style.display = 'none';
+            bookPanelExit.style.display = 'none';
+          }, 400)
+        }
+        requestAnimationFrame(animateCloseBookPanel);
+
+        })
+
+      }
+
+      createBookPanel();
+
+    })
   })
 
   biblePanelContainer.append(translationDropdown);

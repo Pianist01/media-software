@@ -342,4 +342,22 @@ main {
   transition: opacity .2s ease-out;
 }
 
+.book-panel {
+  width: 0;
+  height: 100%;
+  z-index: 3;
+  background-color: orange;
+  grid-row: 1/2;
+  grid-column: 1/-1;
+  transition: width .2s ease-out;
+}
+
+.book-panel-exit {
+  width: 20px;
+  height: 20px;
+  background-color: red;
+  opacity: 0;
+  transition: opacity .2s ease-out;
+}
+
 /* FOOTER */
