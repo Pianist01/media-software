@@ -73,6 +73,13 @@ async function getDisplayBible() {
 
   const booksUL = document.createElement('ul');
   booksUL.classList.add('books-unorderedList');
+  const bookPanel = document.createElement('div');
+  bookPanel.classList.add('book-panel');
+  panel.append(bookPanel);
+
+  const chaptersUL = document.createElement('ul');
+  chaptersUL.classList.add('chapters-ul');
+  panel.append(chaptersUL);
 
   translationDropdown.addEventListener('change', async (e) => {
     const selectedTranslation = e.target.value;
@@ -125,11 +132,7 @@ async function getDisplayBible() {
       }
 
       function createBookPanel() {
-        const bookPanel = document.createElement('div');
-        bookPanel.classList.add('book-panel');
-        panel.append(bookPanel);
 
-        // Move book panel creation outside the function so it is only created once.
         const bookPanelExit = document.createElement('div');
         bookPanelExit.classList.add('book-panel-exit');
 
@@ -154,7 +157,6 @@ async function getDisplayBible() {
           }, 400)
         }
         requestAnimationFrame(animateCloseBookPanel);
-
         })
 
       }
