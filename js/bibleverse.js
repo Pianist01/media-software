@@ -81,6 +81,21 @@ async function getDisplayBible() {
   chaptersUL.classList.add('chapters-ul');
   panel.append(chaptersUL);
 
+  const versePanel = document.createElement('div');
+  versePanel.classList.add('verse-panel');
+
+  const versePanelExit = document.createElement('div');
+  versePanelExit.classList.add('verse-panel-exit');
+
+  versePanel.append(versePanelExit);
+
+  panel.append(versePanel);
+
+  const versesUl = document.createElement('ul');
+  versesUl.classList.add('verses-ul');
+
+  versePanel.append(versesUl);
+
   translationDropdown.addEventListener('change', async (e) => {
     const selectedTranslation = e.target.value;
     console.log(selectedTranslation);
@@ -112,12 +127,16 @@ async function getDisplayBible() {
 
     console.log(listOfBooksData);
 
+    console.log(listOfBooksData.books.length);
+
+
     listOfBooksData.books.forEach((book) => {
       const bookList = document.createElement('li');
       bookList.classList.add('book-list');
       bookList.setAttribute('data-id', book.id);
-
+      
       bookList.textContent = book.name;
+
 
       booksUL.append(bookList);
       console.log(bookList);
@@ -129,6 +148,61 @@ async function getDisplayBible() {
       console.log(bookId);
       if(bookId === null) {
         return;
+      }
+
+      const selectedBook = listOfBooksData.books.find(book => book.id === bookId);
+
+
+      function displayChapters() {
+
+        if(selectedBook === undefined) {
+          throw new Error('The book you are looking for is not available or does not exist')
+        }
+
+        console.log(selectedBook);
+
+        console.log(selectedBook.numberOfChapters);
+
+        for(let i = 1; i <= selectedBook.numberOfChapters; i++) {
+          const chapterList = document.createElement('li');
+          chapterList.classList.add('chapter-list');
+
+          chapterList.textContent = i;
+
+          chaptersUL.append(chapterList);
+          bookPanel.append(chaptersUL);
+          console.log(i);
+        }
+      }
+
+      function displayVerses() {
+        chaptersUL.addEventListener('click', async (e) => {
+          console.log(e.target.textContent)
+
+          versePanel.style.display = 'block';
+
+          const chapterLink = `/api/${selectedTranslation}/${bookId}/${Number(e.target.textContent)}.json`;
+
+          const verseResponse = await fetch(`https://bible.helloao.org${chapterLink}`)
+
+          if(verseResponse.ok === false) {
+            throw new Error(`ERROR: ${verseResponse.status}`)
+          }
+
+          const verseData = await verseResponse.json()
+
+          console.log(verseData.chapter.content);
+
+          // Continue from here, clean up code and then work on user clicking on verse and displaying on preview screen.
+          verseData.chapter.content.forEach((verse) => {
+            const verseList = document.createElement('li');
+            verseList.classList.add('verse-list');
+
+            verseList.textContent = verse.number;
+
+            versesUl.append(verseList);
+          })
+        })
       }
 
       function createBookPanel() {
@@ -162,6 +236,8 @@ async function getDisplayBible() {
       }
 
       createBookPanel();
+      displayChapters();
+      displayVerses();
 
     })
   })
