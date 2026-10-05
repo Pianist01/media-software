@@ -1,3 +1,5 @@
+import { displayContent } from './display.js';
+
 export function createBiblePanel() {
   biblePanelBtn.addEventListener('click', (e) => {
   e.preventDefault();
@@ -96,6 +98,8 @@ async function getDisplayBible() {
 
   versePanel.append(versesUl);
 
+  let verseList;
+
   translationDropdown.addEventListener('change', async (e) => {
     const selectedTranslation = e.target.value;
     console.log(selectedTranslation);
@@ -163,6 +167,7 @@ async function getDisplayBible() {
 
         console.log(selectedBook.numberOfChapters);
 
+
         for(let i = 1; i <= selectedBook.numberOfChapters; i++) {
           const chapterList = document.createElement('li');
           chapterList.classList.add('chapter-list');
@@ -180,6 +185,7 @@ async function getDisplayBible() {
           console.log(e.target.textContent)
 
           versePanel.style.display = 'block';
+          versePanel.style.width = '30%';
 
           const chapterLink = `/api/${selectedTranslation}/${bookId}/${Number(e.target.textContent)}.json`;
 
@@ -193,15 +199,39 @@ async function getDisplayBible() {
 
           console.log(verseData.chapter.content);
 
+          versesUl.replaceChildren();
+
           // Continue from here, clean up code and then work on user clicking on verse and displaying on preview screen.
           verseData.chapter.content.forEach((verse) => {
-            const verseList = document.createElement('li');
+            verseList = document.createElement('li');
             verseList.classList.add('verse-list');
+            verseList.setAttribute('verse-id', verse.number - 1);
 
             verseList.textContent = verse.number;
 
-            versesUl.append(verseList);
+            versesUl.append(verseList); 
           })
+
+          function screenDisplayVerse() {
+          versesUl.addEventListener('click', (e) => {
+            console.log(e.target);
+            let verseID = e.target.getAttribute('verse-id');
+            console.log(verseID);
+            const selectedVerseObject = verseData.chapter.content[verseID];
+            console.log(selectedVerseObject);
+            console.log(selectedVerseObject.content);
+            console.log(selectedVerseObject.content.text);
+            // Use Map instead for this
+            const filteredVerseObject = selectedVerseObject.content.filter(verse => typeof verse === 'string');
+            console.log(filteredVerseObject);
+          })
+        }
+        screenDisplayVerse();
+        })
+        versePanelExit.addEventListener('click', (e) => {
+          e.preventDefault();
+          versePanel.style.width = '0';
+          versePanel.style.display = 'none';
         })
       }
 
