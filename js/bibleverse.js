@@ -220,10 +220,13 @@ async function getDisplayBible() {
             const selectedVerseObject = verseData.chapter.content[verseID];
             console.log(selectedVerseObject);
             console.log(selectedVerseObject.content);
-            console.log(selectedVerseObject.content.text);
             // Use Map instead for this
-            const filteredVerseObject = selectedVerseObject.content.filter(verse => typeof verse === 'string');
-            console.log(filteredVerseObject);
+            const mappedVerseObject = selectedVerseObject.content.map(verse => {
+              return verse.text;
+            });
+            const completeVerse = mappedVerseObject.join(' ');
+            console.log(completeVerse);
+            displayContent(completeVerse);
           })
         }
         screenDisplayVerse();

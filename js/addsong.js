@@ -1,3 +1,5 @@
+import { displayContent } from "./display";
+
 export function createSongPanel() {
     addSong();
 }
@@ -7,6 +9,8 @@ let selectedSong;
 let currentSectionIndex;
 const liveTextScreen = document.querySelector('.live-text');
 let isLive;
+let lyricsArray;
+let lyricContent;
 
 // ----- MAIN SONG FORM -----
 function addSong() {
@@ -486,3 +490,7 @@ function renderSong(song) {
         } 
         }
 }
+
+lyricsArray = selectedSong.sections;
+
+displayContent(lyricsArray, currentSectionIndex);
