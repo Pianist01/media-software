@@ -1,4 +1,4 @@
-import { displayContent } from "./display";
+import { displayContent } from './display.js';
 
 export function createSongPanel() {
     addSong();
@@ -90,7 +90,8 @@ function addSong() {
                 console.log(value.sections);
                 console.log(currentSectionIndex);
                 console.log('Song is at:', value.sections.at(currentSectionIndex).lyrics);
-                songPreviewText.textContent = selectedSong.sections[currentSectionIndex].lyrics;
+                // songPreviewText.textContent = selectedSong.sections[currentSectionIndex].lyrics;
+                lyricsArray = selectedSong.sections;
                 liveBtn.disabled = false;
                 buttonState();
 
@@ -472,6 +473,8 @@ function renderSong(song) {
         console.log('Song clicked');
         isLive = false;
         addedBtnState();
+        lyricsArray = selectedSong.sections;
+        displayContent(lyricsArray, currentSectionIndex);
     });
 
     function addedBtnState() {
@@ -490,7 +493,3 @@ function renderSong(song) {
         } 
         }
 }
-
-lyricsArray = selectedSong.sections;
-
-displayContent(lyricsArray, currentSectionIndex);
