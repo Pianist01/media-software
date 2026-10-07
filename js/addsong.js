@@ -79,6 +79,7 @@ function addSong() {
             const songListLI = document.createElement('li');
             songListLI.classList.add('song-list-li');
             songListLI.textContent = value.title;
+            songListLI.setAttribute('song-id', value.id);
             songListUL.append(songListLI);
 
             songListLI.addEventListener('click', (e) => {
@@ -89,9 +90,10 @@ function addSong() {
                 selectedSong = value;
                 console.log(value.sections);
                 console.log(currentSectionIndex);
+                console.log(selectedSong.sections);
                 console.log('Song is at:', value.sections.at(currentSectionIndex).lyrics);
-                // songPreviewText.textContent = selectedSong.sections[currentSectionIndex].lyrics;
-                lyricsArray = selectedSong.sections;
+                songPreviewText.textContent = selectedSong.sections[currentSectionIndex].lyrics;
+                // lyricsArray = selectedSong.sections;
                 liveBtn.disabled = false;
                 buttonState();
 
@@ -99,6 +101,24 @@ function addSong() {
         }
         songListContainer.append(songListUL);
         songPanelContainer.append(songListContainer);
+
+        songListUL.addEventListener('click', (e) => {
+            const songId = e.target.getAttribute('song-id');
+            const numberSongId = Number(songId);
+            const songIndex = songId - 1;
+            console.log(typeof songId);
+            console.log(typeof numberSongId);
+            console.log(typeof songList[songIndex].id);
+            const findSong = songList.find(song => {
+                if(song.id === numberSongId) {
+                    return song;
+                }
+            });
+            console.log(findSong);
+            lyricsArray = findSong.sections;
+            console.log(findSong.sections);
+            displayContent(lyricsArray, currentSectionIndex);
+        })
 
         nextBtn.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -462,34 +482,35 @@ function renderSong(song) {
     const addedSongPreviewText = document.querySelector('.preview-text');
     const renderLi = document.createElement('li');
     renderLi.textContent = song.title;
+    renderLi.setAttribute('song-id', song.id);
     songListUL.append(renderLi);
 
-    renderLi.addEventListener('click', (e) => {
-        e.preventDefault();
-        currentSectionIndex = 0;
-        selectedSong = song;
-        console.log('Song is at:', selectedSong.sections.at(currentSectionIndex).lyrics);
-        addedSongPreviewText.textContent = selectedSong.sections[currentSectionIndex].lyrics;
-        console.log('Song clicked');
-        isLive = false;
-        addedBtnState();
-        lyricsArray = selectedSong.sections;
-        displayContent(lyricsArray, currentSectionIndex);
-    });
+    // renderLi.addEventListener('click', (e) => {
+    //     e.preventDefault();
+    //     currentSectionIndex = 0;
+    //     selectedSong = song;
+    //     console.log('Song is at:', selectedSong.sections.at(currentSectionIndex).lyrics);
+    //     addedSongPreviewText.textContent = selectedSong.sections[currentSectionIndex].lyrics;
+    //     console.log('Song clicked');
+    //     isLive = false;
+    //     addedBtnState();
+    //     lyricsArray = selectedSong.sections;
+    //     displayContent(lyricsArray, currentSectionIndex);
+    // });
 
-    function addedBtnState() {
-           if(selectedSong.sections.length === 1) {
-            addedBackBtn.disabled = true;
-            addedNextBtn.disabled = true;
-        } else if(currentSectionIndex === 0) {
-            addedBackBtn.disabled = true;
-            addedNextBtn.disabled = false;
-        } else if(currentSectionIndex > 0 && currentSectionIndex < selectedSong.sections.length - 1) {
-            addedBackBtn.disabled = false;
-            addedNextBtn.disabled = false;
-        } else if(currentSectionIndex === selectedSong.sections.length - 1) {
-            addedNextBtn.disabled = true;
-            addedBackBtn.disabled = false;
-        } 
-        }
+    // function addedBtnState() {
+    //        if(selectedSong.sections.length === 1) {
+    //         addedBackBtn.disabled = true;
+    //         addedNextBtn.disabled = true;
+    //     } else if(currentSectionIndex === 0) {
+    //         addedBackBtn.disabled = true;
+    //         addedNextBtn.disabled = false;
+    //     } else if(currentSectionIndex > 0 && currentSectionIndex < selectedSong.sections.length - 1) {
+    //         addedBackBtn.disabled = false;
+    //         addedNextBtn.disabled = false;
+    //     } else if(currentSectionIndex === selectedSong.sections.length - 1) {
+    //         addedNextBtn.disabled = true;
+    //         addedBackBtn.disabled = false;
+    //     } 
+    //     }
 }
