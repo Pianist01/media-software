@@ -104,6 +104,10 @@ function addSong() {
 
         songListUL.addEventListener('click', (e) => {
             const songId = e.target.getAttribute('song-id');
+            if(songId === null) {
+                return;
+            }
+            currentSectionIndex = 0;
             const numberSongId = Number(songId);
             const songIndex = songId - 1;
             console.log(typeof songId);
@@ -477,40 +481,8 @@ let addedSong = {
 }
 
 function renderSong(song) {
-    const addedNextBtn = document.querySelector('.next-btn');
-    const addedBackBtn = document.querySelector('.back-btn');
-    const addedSongPreviewText = document.querySelector('.preview-text');
     const renderLi = document.createElement('li');
     renderLi.textContent = song.title;
     renderLi.setAttribute('song-id', song.id);
     songListUL.append(renderLi);
-
-    // renderLi.addEventListener('click', (e) => {
-    //     e.preventDefault();
-    //     currentSectionIndex = 0;
-    //     selectedSong = song;
-    //     console.log('Song is at:', selectedSong.sections.at(currentSectionIndex).lyrics);
-    //     addedSongPreviewText.textContent = selectedSong.sections[currentSectionIndex].lyrics;
-    //     console.log('Song clicked');
-    //     isLive = false;
-    //     addedBtnState();
-    //     lyricsArray = selectedSong.sections;
-    //     displayContent(lyricsArray, currentSectionIndex);
-    // });
-
-    // function addedBtnState() {
-    //        if(selectedSong.sections.length === 1) {
-    //         addedBackBtn.disabled = true;
-    //         addedNextBtn.disabled = true;
-    //     } else if(currentSectionIndex === 0) {
-    //         addedBackBtn.disabled = true;
-    //         addedNextBtn.disabled = false;
-    //     } else if(currentSectionIndex > 0 && currentSectionIndex < selectedSong.sections.length - 1) {
-    //         addedBackBtn.disabled = false;
-    //         addedNextBtn.disabled = false;
-    //     } else if(currentSectionIndex === selectedSong.sections.length - 1) {
-    //         addedNextBtn.disabled = true;
-    //         addedBackBtn.disabled = false;
-    //     } 
-    //     }
 }
