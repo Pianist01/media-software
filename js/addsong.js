@@ -106,6 +106,7 @@ function addSong() {
             if(songId === null) {
                 return;
             }
+            liveBtn.disabled = false;
             const numberSongId = Number(songId);
             const songIndex = songId - 1;
             console.log(typeof songId);
