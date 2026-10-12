@@ -10,6 +10,9 @@ export function createBiblePanel() {
 })
 };
 
+let chapterContent;
+let verseIndex;
+
 const biblePanelBtn = document.querySelector('.bible-panel-btn');
 const biblePanelContainer = document.createElement('div');
 biblePanelContainer.classList.add('bible-panel-container');
@@ -201,6 +204,11 @@ async function getDisplayBible() {
 
           versesUl.replaceChildren();
 
+          chapterContent = verseData.chapter.content.map(item => {
+            
+          })
+          console.log(chapterContent);
+
           // Continue from here, clean up code and then work on user clicking on verse and displaying on preview screen.
           verseData.chapter.content.forEach((verse) => {
             verseList = document.createElement('li');
@@ -217,6 +225,7 @@ async function getDisplayBible() {
             console.log(e.target);
             let verseID = e.target.getAttribute('verse-id');
             console.log(verseID);
+            verseIndex = verseID;
             const selectedVerseObject = verseData.chapter.content[verseID];
             console.log(selectedVerseObject);
             console.log(selectedVerseObject.content);
@@ -226,7 +235,7 @@ async function getDisplayBible() {
             });
             const completeVerse = mappedVerseObject.join(' ');
             console.log(completeVerse);
-            displayContent(completeVerse);
+            displayContent(chapterContent, verseIndex);
           })
         }
         screenDisplayVerse();
