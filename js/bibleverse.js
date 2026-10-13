@@ -12,6 +12,7 @@ export function createBiblePanel() {
 
 let chapterContent;
 let verseIndex;
+const liveBtn = document.querySelector('.live-btn');
 
 const biblePanelBtn = document.querySelector('.bible-panel-btn');
 const biblePanelContainer = document.createElement('div');
@@ -204,9 +205,19 @@ async function getDisplayBible() {
 
           versesUl.replaceChildren();
 
-          chapterContent = verseData.chapter.content.map(item => {
-            
-          })
+          chapterContent = verseData.chapter.content.map(item => ({
+            verseNumber: item.number,
+            type: 'text',
+            content: item.content
+              .map(verse => {
+                if(typeof verse === 'string') {
+                  return verse;
+                }
+
+                return verse.text;
+              })
+              .join(' ')
+          }));
           console.log(chapterContent);
 
           // Continue from here, clean up code and then work on user clicking on verse and displaying on preview screen.
@@ -223,16 +234,23 @@ async function getDisplayBible() {
           function screenDisplayVerse() {
           versesUl.addEventListener('click', (e) => {
             console.log(e.target);
+            liveBtn.disabled = false;
             let verseID = e.target.getAttribute('verse-id');
             console.log(verseID);
-            verseIndex = verseID;
+            verseIndex = Number(verseID);
+            console.log(verseIndex);
             const selectedVerseObject = verseData.chapter.content[verseID];
             console.log(selectedVerseObject);
             console.log(selectedVerseObject.content);
             // Use Map instead for this
             const mappedVerseObject = selectedVerseObject.content.map(verse => {
+              if(typeof verse === 'string') {
+                console.log('This is a string');
+                return verse;
+              }
               return verse.text;
             });
+            console.log(mappedVerseObject);
             const completeVerse = mappedVerseObject.join(' ');
             console.log(completeVerse);
             displayContent(chapterContent, verseIndex);

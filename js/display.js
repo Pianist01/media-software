@@ -1,5 +1,5 @@
 let previewIndex = 0;
-let currentSongIndex;
+let currentIndex;
 let currentContent;
 let previewContent;
 const nextBtn = document.querySelector('.next-btn');
@@ -12,14 +12,13 @@ let isLive;
 const liveNextBtn = document.querySelector('.live-next-btn');
 const liveBackBtn = document.querySelector('.live-back-btn');
 
-export function displayContent(content, currentIndex) {
-
-    previewText.textContent = content[currentIndex].lyrics;
+export function displayContent(content, index) {
     previewContent = content;
-    previewIndex = currentIndex;
+    previewIndex = index;
     isLive = false;
-
-    console.log(content);
+    previewText.textContent = previewContent[previewIndex].content;
+    console.log(previewContent);
+    console.log(previewContent[previewIndex].content);
     buttonState(previewContent, previewIndex, backBtn, nextBtn);
 }
 
@@ -30,8 +29,8 @@ function buttonContentFunctionality() {
         e.preventDefault();
         previewIndex++;
         console.log(`New Index is currently at: ${previewIndex}`);
-        previewText.textContent = previewContent[previewIndex].lyrics;
-        console.log(previewContent[previewIndex].lyrics);
+        previewText.textContent = previewContent[previewIndex].content;
+        console.log(previewContent[previewIndex].content);
         
         buttonState(previewContent, previewIndex, backBtn, nextBtn);
 
@@ -44,7 +43,7 @@ function buttonContentFunctionality() {
         e.preventDefault();
         previewIndex--;
         console.log(`New Index is currently at: ${previewIndex}`);
-        previewText.textContent = previewContent[previewIndex].lyrics;
+        previewText.textContent = previewContent[previewIndex].content;
 
         buttonState(previewContent, previewIndex, backBtn, nextBtn);
 
@@ -57,27 +56,27 @@ function buttonContentFunctionality() {
         e.preventDefault();
         isLive = true;
         currentContent = previewContent;
-        currentSongIndex = previewIndex
-        liveText.textContent = currentContent[currentSongIndex].lyrics;
-        buttonState(currentContent, currentSongIndex, liveBackBtn, liveNextBtn);
+        currentIndex = previewIndex
+        liveText.textContent = currentContent[currentIndex].content;
+        buttonState(currentContent, currentIndex, liveBackBtn, liveNextBtn);
     })
 
     liveNextBtn.addEventListener('click', (e) => {
-        currentSongIndex++;
-        console.log(`Live Index is currently at: ${currentSongIndex}`);
-        liveText.textContent = currentContent[currentSongIndex].lyrics;
-        buttonState(currentContent, currentSongIndex, liveBackBtn, liveNextBtn);
-        if(currentSongIndex >= currentContent.length - 1) {
+        currentIndex++;
+        console.log(`Live Index is currently at: ${currentIndex}`);
+        liveText.textContent = currentContent[currentIndex].content;
+        buttonState(currentContent, currentIndex, liveBackBtn, liveNextBtn);
+        if(currentIndex >= currentContent.length - 1) {
             return;
         }
     });
 
     liveBackBtn.addEventListener('click', (e) => {
-        currentSongIndex--;
-        console.log(`Live Index is currently at: ${currentSongIndex}`);
-        liveText.textContent = currentContent[currentSongIndex].lyrics;
-        buttonState(currentContent, currentSongIndex, liveBackBtn, liveNextBtn);
-        if(currentSongIndex <= currentContent.length[0]) {
+        currentIndex--;
+        console.log(`Live Index is currently at: ${currentIndex}`);
+        liveText.textContent = currentContent[currentIndex].content;
+        buttonState(currentContent, currentIndex, liveBackBtn, liveNextBtn);
+        if(currentIndex <= currentContent.length[0]) {
             return;
         }
     })
