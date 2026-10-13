@@ -118,56 +118,15 @@ function addSong() {
                 }
             });
             console.log(findSong);
-            lyricsArray = findSong.sections;
+            lyricsArray = findSong.sections.map(song => ({
+                type: 'text',
+                name: song.name,
+                content: song.lyrics
+            }));
             console.log(findSong.sections);
             displayContent(lyricsArray, currentSectionIndex);
         })
 
-        // nextBtn.addEventListener('click', (e) => {
-        //             e.preventDefault();
-        //             currentSectionIndex++;
-        //             console.log(currentSectionIndex);
-        //             songPreviewText.textContent = selectedSong.sections[currentSectionIndex].lyrics;
-        //             if(isLive === true) {
-        //                 liveTextScreen.textContent = selectedSong.sections[currentSectionIndex].lyrics;
-        //             }
-        //             buttonState();
-        //         });
-
-        //         backBtn.addEventListener('click', (e) => {
-        //             e.preventDefault();
-        //             currentSectionIndex--;
-        //             console.log(currentSectionIndex);
-        //             songPreviewText.textContent = selectedSong.sections[currentSectionIndex].lyrics;
-        //             if(isLive === true) {
-        //                 liveTextScreen.textContent = selectedSong.sections[currentSectionIndex].lyrics;
-        //              }
-        //             buttonState();
-        //         });
-
-
-        // liveBtn.addEventListener('click', (e) => {
-        //     e.preventDefault();
-        //     isLive = true;
-        //     liveTextScreen.textContent = selectedSong.sections[currentSectionIndex].lyrics;
-        // });
-
-
-    //      function buttonState() {
-    //     if(selectedSong.sections.length === 1) {
-    //         backBtn.disabled = true;
-    //         nextBtn.disabled = true;
-    //     } else if(currentSectionIndex === 0) {
-    //         backBtn.disabled = true;
-    //         nextBtn.disabled = false;
-    //     } else if(currentSectionIndex > 0 && currentSectionIndex < selectedSong.sections.length - 1) {
-    //         backBtn.disabled = false;
-    //         nextBtn.disabled = false;
-    //     } else if(currentSectionIndex === selectedSong.sections.length - 1) {
-    //         nextBtn.disabled = true;
-    //         backBtn.disabled = false;
-    //     } 
-    // }
     }); 
 
 }
