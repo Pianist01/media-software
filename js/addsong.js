@@ -129,6 +129,13 @@ function addSong() {
 
     }); 
 
+    // ----- SEARCH FORM FUNCTIONALITY -----
+
+    searchInput.addEventListener('change', (e) => {
+        e.preventDefault();
+        
+    })
+
 }
 
 // ----- ADD NEW SONG FORM ----- 
