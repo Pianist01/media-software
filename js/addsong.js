@@ -127,14 +127,33 @@ function addSong() {
             displayContent(lyricsArray, currentSectionIndex);
         })
 
-    }); 
+        // ----- SEARCH FORM FUNCTIONALITY -----
 
-    // ----- SEARCH FORM FUNCTIONALITY -----
+        searchInput.addEventListener('input', () => {
+        songListUL.textContent = '';
+        const normalizedSearchInput = searchInput.value
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase();
+        const searchList = songList.filter(song => {
+            const normalizedTitle = song.title
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, "")
+                .toLowerCase();
 
-    searchInput.addEventListener('change', (e) => {
-        e.preventDefault();
-        
+                return normalizedTitle.includes(normalizedSearchInput);
+        });
+        console.log(searchList);
+        if(searchList.length === 0) {
+            songListUL.textContent = 'No Matching Songs Found';
+            return;
+        }
+        searchList.forEach((song) => {
+            renderSong(song);
+        })
     })
+
+    }); 
 
 }
 
