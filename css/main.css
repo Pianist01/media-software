@@ -100,29 +100,38 @@ li:hover {
   align-self: center;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
+  align-items: center;
+  min-width: 200px;
+  height: 100%;
 }
 
-/* .songs {
-  grid-column: 1/2;
-  grid-row: 1/2;
-  align-self: center;
-  justify-self: end;
-} */
+.songs {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 5px;
+  padding: 5px;
+}
 
 .song-option-title {
   color: white;
 }
 
-/* .bible {
-  grid-row: 1/2;
-  grid-column: 2/3;
-  align-self: center;
-  justify-self: start;
-} */
+.bible {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 8px;
+  padding-top: 5px;
+}
 
 .bible-option-title {
-  color: white;
+  color: white; 
+}
+
+.songs:hover, .bible:hover {
+  cursor: pointer;
 }
 
 /* BODY */
@@ -174,10 +183,8 @@ main {
   border: 2px solid green;
   display: flex;
   flex-direction: column;
-  min-width: 350px;
-  width: 350px;
-  min-height: 350px;
-  height: 350px;
+  min-width: 300px;
+  min-height: 300px;
   justify-content: space-between;
 }
 
@@ -208,10 +215,8 @@ main {
   border: 2px solid blue;
   display: flex;
   flex-direction: column;
-  min-width: 350px;
-  width: 350px;
-  min-height: 350px;
-  height: 350px;
+  min-width: 300px;
+  min-height: 300px;
   justify-content: space-between;
 }
 
@@ -410,6 +415,11 @@ main {
   grid-column: 1/-1;
   z-index: 2;
   transition: width .2s ease-out;
+}
+
+.bible-panel-btn {
+  width: 50px;
+  height: 30px;
 }
 
 .bible-panel-exit-btn {
