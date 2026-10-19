@@ -10,15 +10,29 @@
 </head>
 <body>
   <header>
-  <img class="logo" src="/img/genesisActiveLogo.png">
-  <p class="current-service">Sunday-02/05/2026</p>
-  <div class="button-functions">
-    <button>New Service</button>
+  <img class="logo" src="/img/genesisActiveLogo.png" alt="Song Icon">
+
+  <div class="options-box">
+    <div class="songs">
+    <img class="song-icon" src="/icons/music-default.svg">
+    <p class="song-option-title">Songs</p>
   </div>
+  
+  <div class="bible">
+    <img class="bible-icon" src="/icons/bible-default.svg" alt="Bible Icon">
+    <p class="bible-option-title">Bible</p>
+  </div>
+  </div>
+  <!-- <p class="current-service">Sunday-02/05/2026</p> -->
+  <!-- <div class="button-functions">
+    <button>New Service</button>
+  </div> -->
 </header>
 
   <main>
     <section class="screens">
+      <div class="preview-box">
+      <p class="preview-identifcation">Preview</p>
       <div class="preview-screen">
       <p class="preview-text">This is the preview screen</p>
 
@@ -28,7 +42,10 @@
         <button class="live-btn" disabled>Go Live</button>
     </div>
     </div>
+    </div>
 
+    <div class="live-box">
+    <p class="live-identification">Live</p>
     <div class="live-screen">
       <p class="live-text">This is the live screen</p>
 
@@ -37,13 +54,18 @@
         <button class="live-next-btn" disabled>></button>
       </div>
     </div>
+    </div>
     </section>
 
     <section class="panel">
       <div class="side-panel">
-      <p>This is the side panel</p>
+      <h2 class="panel-title">Songs</h2>
       <button class="add-song-btn">Add Song</button>
       <button class="bible-panel-btn">The Bible</button>
+      <div class="button-functions">
+        <button>New Service</button>
+      </div>
+
     </div>
     </section>
   </main>
