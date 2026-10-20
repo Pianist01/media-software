@@ -1,9 +1,13 @@
 import { displayContent } from './display.js';
 
 export function createBiblePanel() {
-  biblePanelBtn.addEventListener('click', (e) => {
+  const bibleSectionBtn = document.querySelector('.bible');
+  const bibleSectionImg = document.querySelector('.bible-icon');
+  const songSectionImg = document.querySelector('.song-icon');
+  bibleSectionBtn.addEventListener('click', (e) => {
   e.preventDefault();
-  
+  bibleSectionImg.src = '/icons/bible-active.svg';
+  songSectionImg.src = '/icons/music-default.svg';
   showPanel();
   getDisplayBible();
   console.log('Btn clicked');
@@ -21,19 +25,19 @@ let translationsLoaded = false;
 const panel = document.querySelector('.panel');
 
 function showPanel() {
+  // biblePanelContainer.style.display = 'block';
   const exitBtn = document.createElement('button');
   exitBtn.classList.add('bible-panel-exit-btn');
 
-  function animatePanel() {
-    biblePanelContainer.style.width = '100%';
-    biblePanelContainer.style.display = 'block';
-    exitBtn.style.opacity = '1';
-  }
+  // function animatePanel() {
+  //   biblePanelContainer.style.height = '100%';
+  //   exitBtn.style.opacity = '1';
+  // }
 
-  requestAnimationFrame(animatePanel);
+  // requestAnimationFrame(animatePanel);
 
   function animateClosePanel() {
-    biblePanelContainer.style.width = '0';
+    biblePanelContainer.style.height = '0';
     exitBtn.style.opacity = '0';
     setTimeout(() => {
       biblePanelContainer.style.display = 'none';

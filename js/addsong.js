@@ -15,15 +15,28 @@ let lyricContent;
 // ----- MAIN SONG FORM -----
 function addSong() {
     const panel = document.querySelector('.panel');
-    const addSongBtn = document.querySelector('.add-song-btn');
+    // const addSongBtn = document.querySelector('.add-song-btn');
+    const songSectionBtn = document.querySelector('.songs');
     const liveBtn = document.querySelector('.live-btn');
     isLive = false;
-    addSongBtn.addEventListener('click', (e) => {
+    songSectionBtn.addEventListener('click', (e) => {
         e.preventDefault();
         console.log('Song Button Clicked');
 
+        const songSectionImg = document.querySelector('.song-icon');
+        const bibleSectionImg = document.querySelector('.bible-icon');
+        songSectionImg.src = '/icons/music-active.svg';
+        bibleSectionImg.src = '/icons/bible-default.svg';
+
         const songPanelContainer = document.createElement('div');
         songPanelContainer.classList.add('song-panel-container');
+
+        function growDown() {
+            songPanelContainer.style.height = '100%';
+            songPanelContainer.style.transformOrigin = 'top';
+        }
+
+        requestAnimationFrame(growDown);
 
         const searchFormContainer = document.createElement('search');
         searchFormContainer.classList.add('search-form-container');
@@ -51,8 +64,15 @@ function addSong() {
 
         exitBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            songPanelContainer.style.display = 'none';
-            songPanelContainer.remove();
+            function goAway() {
+                songPanelContainer.style.height = '0';
+            }
+            songSectionImg.src = '/icons/music-default.svg';
+            requestAnimationFrame(goAway);
+            setTimeout(() => {
+                songPanelContainer.style.display = 'none';
+                songPanelContainer.remove();
+            }, 1000)
         });
 
         searchForm.append(searchInput);

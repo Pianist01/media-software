@@ -1,7 +1,7 @@
 let formContainer;
 
 export function createService() {
-  const newServiceBtn = document.querySelector('button');
+  const newServiceBtn = document.querySelector('.new-service-btn');
   newServiceBtn.addEventListener('click', (e) => {
     e.preventDefault();
     console.log('Button is clicked and export/import is working');
