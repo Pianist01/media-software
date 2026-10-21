@@ -25,22 +25,21 @@ let translationsLoaded = false;
 const panel = document.querySelector('.panel');
 
 function showPanel() {
-  // biblePanelContainer.style.display = 'block';
   const exitBtn = document.createElement('button');
   exitBtn.classList.add('bible-panel-exit-btn');
 
-  // function animatePanel() {
-  //   biblePanelContainer.style.height = '100%';
-  //   exitBtn.style.opacity = '1';
-  // }
+  function animatePanel() {
+    biblePanelContainer.style.height = '100%';
+    exitBtn.style.opacity = '1';
+  }
 
-  // requestAnimationFrame(animatePanel);
+  requestAnimationFrame(animatePanel);
 
   function animateClosePanel() {
     biblePanelContainer.style.height = '0';
     exitBtn.style.opacity = '0';
     setTimeout(() => {
-      biblePanelContainer.style.display = 'none';
+      biblePanelContainer.remove();
     }, 1000);
   }
 
@@ -85,11 +84,11 @@ async function getDisplayBible() {
   booksUL.classList.add('books-unorderedList');
   const bookPanel = document.createElement('div');
   bookPanel.classList.add('book-panel');
-  panel.append(bookPanel);
+  biblePanelContainer.append(bookPanel);
 
   const chaptersUL = document.createElement('ul');
   chaptersUL.classList.add('chapters-ul');
-  panel.append(chaptersUL);
+  biblePanelContainer.append(chaptersUL);
 
   const versePanel = document.createElement('div');
   versePanel.classList.add('verse-panel');
@@ -99,7 +98,7 @@ async function getDisplayBible() {
 
   versePanel.append(versePanelExit);
 
-  panel.append(versePanel);
+  biblePanelContainer.append(versePanel);
 
   const versesUl = document.createElement('ul');
   versesUl.classList.add('verses-ul');
