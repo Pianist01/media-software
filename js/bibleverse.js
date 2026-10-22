@@ -1,11 +1,11 @@
 import { displayContent } from './display.js';
-
+const bibleSectionImg = document.querySelector('.bible-icon');
+const bibleSectionBtn = document.querySelector('.bible');
 export function createBiblePanel() {
-  const bibleSectionBtn = document.querySelector('.bible');
-  const bibleSectionImg = document.querySelector('.bible-icon');
   const songSectionImg = document.querySelector('.song-icon');
   bibleSectionBtn.addEventListener('click', (e) => {
   e.preventDefault();
+  bibleSectionBtn.style.background = 'linear-gradient(180deg, #10283e 0%, #103454 55%, #06447f 100%)';
   bibleSectionImg.src = '/icons/bible-active.svg';
   songSectionImg.src = '/icons/music-default.svg';
   showPanel();
@@ -23,10 +23,15 @@ const biblePanelContainer = document.createElement('div');
 biblePanelContainer.classList.add('bible-panel-container');
 let translationsLoaded = false;
 const panel = document.querySelector('.panel');
+const bookScrollBox = document.createElement('div');
+bookScrollBox.classList.add('book-scroll-container');
+const bookPanelExit = document.createElement('button');
+bookPanelExit.textContent = 'X';
+bookPanelExit.classList.add('book-panel-exit');
+const exitBtn = document.createElement('button');
+exitBtn.classList.add('bible-panel-exit-btn');
 
 function showPanel() {
-  const exitBtn = document.createElement('button');
-  exitBtn.classList.add('bible-panel-exit-btn');
 
   function animatePanel() {
     biblePanelContainer.style.height = '100%';
@@ -38,13 +43,12 @@ function showPanel() {
   function animateClosePanel() {
     biblePanelContainer.style.height = '0';
     exitBtn.style.opacity = '0';
-    setTimeout(() => {
-      biblePanelContainer.remove();
-    }, 1000);
   }
 
   exitBtn.addEventListener('click', (e) => {
     e.preventDefault();
+    bibleSectionImg.src = '/icons/bible-default.svg';
+    bibleSectionBtn.style.background = '';
     requestAnimationFrame(animateClosePanel);
   });
 
@@ -152,7 +156,8 @@ async function getDisplayBible() {
       booksUL.append(bookList);
       console.log(bookList);
     })
-    biblePanelContainer.append(booksUL);
+    bookScrollBox.append(booksUL)
+    biblePanelContainer.append(bookScrollBox);
 
     booksUL.addEventListener('click', (e) => {
       const bookId = e.target.getAttribute('data-id');
@@ -191,8 +196,11 @@ async function getDisplayBible() {
         chaptersUL.addEventListener('click', async (e) => {
           console.log(e.target.textContent)
 
-          versePanel.style.display = 'block';
-          versePanel.style.width = '30%';
+          function showVersePanel() {
+            versePanel.style.width = '100%';
+          }
+
+          requestAnimationFrame(showVersePanel);
 
           const chapterLink = `/api/${selectedTranslation}/${bookId}/${Number(e.target.textContent)}.json`;
 
@@ -263,20 +271,19 @@ async function getDisplayBible() {
         })
         versePanelExit.addEventListener('click', (e) => {
           e.preventDefault();
-          versePanel.style.width = '0';
-          versePanel.style.display = 'none';
+          function closeVersePanel() {
+            versePanel.style.width = '0';
+          }
+          requestAnimationFrame(closeVersePanel);
         })
       }
 
       function createBookPanel() {
 
-        const bookPanelExit = document.createElement('div');
-        bookPanelExit.classList.add('book-panel-exit');
-
         bookPanel.append(bookPanelExit);
 
         function animateBookPanel() {
-          bookPanel.style.display = 'block';
+          exitBtn.classList.add('hidden');
           bookPanelExit.style.display = 'block';
           bookPanel.style.width = '100%';
           bookPanelExit.style.opacity = '1';
@@ -285,13 +292,11 @@ async function getDisplayBible() {
 
         bookPanelExit.addEventListener('click', (e) => {
           e.preventDefault();
+          exitBtn.classList.remove('hidden');
           function animateCloseBookPanel() {
           bookPanel.style.width = '0';
           bookPanelExit.style.opacity = '0';
-          setTimeout(() => {
-            bookPanel.style.display = 'none';
-            bookPanelExit.style.display = 'none';
-          }, 400)
+          chaptersUL.remove();
         }
         requestAnimationFrame(animateCloseBookPanel);
         })

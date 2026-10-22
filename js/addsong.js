@@ -11,6 +11,7 @@ const liveTextScreen = document.querySelector('.live-text');
 let isLive;
 let lyricsArray;
 let lyricContent;
+const songsBox = document.querySelector('.songs');
 
 // ----- MAIN SONG FORM -----
 function addSong() {
@@ -26,6 +27,7 @@ function addSong() {
         const songSectionImg = document.querySelector('.song-icon');
         const bibleSectionImg = document.querySelector('.bible-icon');
         songSectionImg.src = '/icons/music-active.svg';
+        songsBox.style.background = 'linear-gradient(180deg, #10283e 0%, #103454 55%, #06447f 100%)';
         bibleSectionImg.src = '/icons/bible-default.svg';
 
         const songPanelContainer = document.createElement('div');
@@ -68,6 +70,7 @@ function addSong() {
                 songPanelContainer.style.height = '0';
             }
             songSectionImg.src = '/icons/music-default.svg';
+            songsBox.style.background = '';
             requestAnimationFrame(goAway);
             setTimeout(() => {
                 songPanelContainer.style.display = 'none';
