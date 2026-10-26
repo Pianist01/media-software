@@ -490,6 +490,7 @@ let addedSong = {
 function renderSong(song) {
     const renderLi = document.createElement('li');
     renderLi.textContent = song.title;
+    renderLi.classList.add('song-list-li');
     renderLi.setAttribute('song-id', song.id);
     songListUL.append(renderLi);
 }
