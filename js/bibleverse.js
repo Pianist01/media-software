@@ -215,8 +215,9 @@ async function getDisplayBible() {
           console.log(verseData.chapter.content);
 
           versesUl.replaceChildren();
-
-          chapterContent = verseData.chapter.content.map(item => ({
+          console.log(verseData.chapter.content.filter(item => !Array.isArray(item.content)));
+          const validVerses = verseData.chapter.content.filter(item => typeof item.number === 'number' && Array.isArray(item.content));
+          chapterContent = validVerses.map(item => ({
             verseNumber: item.number,
             type: 'text',
             content: item.content
@@ -232,7 +233,8 @@ async function getDisplayBible() {
           console.log(chapterContent);
 
           // Continue from here, clean up code and then work on user clicking on verse and displaying on preview screen.
-          verseData.chapter.content.forEach((verse) => {
+          versesUl.replaceChildren();
+          validVerses.forEach((verse) => {
             verseList = document.createElement('li');
             verseList.classList.add('verse-list');
             verseList.setAttribute('verse-id', verse.number - 1);
