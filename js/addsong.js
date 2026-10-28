@@ -187,6 +187,10 @@ function createNewSong() {
     const newSongFormContainer = document.createElement('div');
     newSongFormContainer.classList.add('new-song-form-container');
 
+    const exitFormBtn = document.createElement('img');
+    exitFormBtn.classList.add('new-song-exit-btn');
+    exitFormBtn.src = '/img/exit.png';
+
     const newSongForm = document.createElement('form');
     newSongForm.classList.add('new-song-form');
 
@@ -396,7 +400,7 @@ function createNewSong() {
 
     newSongForm.append(songTitleLabel, songTitleInput, songAuthorLabel, songAuthorInput, lyricsContainer, submitBtn);
 
-    newSongFormContainer.append(newSongForm);
+    newSongFormContainer.append(exitFormBtn, newSongForm);
 
     body.append(newSongFormContainer);
 
