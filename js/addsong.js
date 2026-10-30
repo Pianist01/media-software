@@ -89,11 +89,6 @@ function addSong() {
         songListContainer.classList.add('song-list-container');
         songListUL = document.createElement('ul');
         songListUL.classList.add('song-list-ul');
-        // const songPreviewText = document.querySelector('.preview-text');
-        // const backBtn = document.querySelector('.back-btn');
-        // backBtn.disabled = true;
-        // const nextBtn = document.querySelector('.next-btn');
-        // nextBtn.disabled = true;
 
         for(const value of Object.values(songList)) {
             console.log(`Song Title: ${value.title}`);
@@ -102,24 +97,8 @@ function addSong() {
             songListLI.textContent = value.title;
             songListLI.setAttribute('song-id', value.id);
             songListUL.append(songListLI);
-
-        //     songListLI.addEventListener('click', (e) => {
-        //         e.preventDefault();
-        //         currentSectionIndex = 0;
-        //         isLive = false;
-        //         console.log(`Song Selected: ${value.title}`);
-        //         selectedSong = value;
-        //         console.log(value.sections);
-        //         console.log(currentSectionIndex);
-        //         console.log(selectedSong.sections);
-        //         console.log('Song is at:', value.sections.at(currentSectionIndex).lyrics);
-        //         songPreviewText.textContent = selectedSong.sections[currentSectionIndex].lyrics;
-        //         // lyricsArray = selectedSong.sections;
-        //         liveBtn.disabled = false;
-        //         buttonState();
-
-        //     });
          }
+
         songListContainer.append(songListUL);
         songPanelContainer.append(songListContainer);
 
@@ -187,9 +166,25 @@ function createNewSong() {
     const newSongFormContainer = document.createElement('div');
     newSongFormContainer.classList.add('new-song-form-container');
 
+    function openContainer() {
+        newSongFormContainer.style.height = '300px';
+    }
+
+    requestAnimationFrame(openContainer);
+
     const exitFormBtn = document.createElement('img');
     exitFormBtn.classList.add('new-song-exit-btn');
     exitFormBtn.src = '/img/exit.png';
+
+    exitFormBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        function closeContainer() {
+            newSongFormContainer.style.height = '0';
+            newSongForm.remove();
+            exitFormBtn.remove();
+        }
+        requestAnimationFrame(closeContainer);
+    })
 
     const newSongForm = document.createElement('form');
     newSongForm.classList.add('new-song-form');

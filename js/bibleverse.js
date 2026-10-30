@@ -30,6 +30,7 @@ bookPanelExit.textContent = 'X';
 bookPanelExit.classList.add('book-panel-exit');
 const exitBtn = document.createElement('button');
 exitBtn.classList.add('bible-panel-exit-btn');
+exitBtn.textContent = 'X';
 
 function showPanel() {
 
