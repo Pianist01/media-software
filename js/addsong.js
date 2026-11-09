@@ -1,4 +1,6 @@
 import { displayContent } from './display.js';
+import {    saveSongs   } from './songStorage.js';
+import {    loadSongs   } from './songStorage.js';
 
 export function createSongPanel() {
     addSong();
@@ -382,6 +384,7 @@ function createNewSong() {
         songList.push(addedSong);
         console.log(songList);
         renderSong(addedSong);
+        saveSongs(songList);
         newSongFormContainer.remove();
         addedSong = {
             id: '',
@@ -493,3 +496,7 @@ function renderSong(song) {
     renderLi.setAttribute('song-id', song.id);
     songListUL.append(renderLi);
 }
+
+const savedSong = saveSongs(songList);
+
+loadSongs(savedSong);
