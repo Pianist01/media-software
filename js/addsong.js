@@ -14,6 +14,8 @@ let isLive;
 let lyricsArray;
 let lyricContent;
 const songsBox = document.querySelector('.songs');
+let index = 0;
+const lyricTypeTextContainer = document.querySelector('.lyric-type-text-container');
 
 // ----- MAIN SONG FORM -----
 function addSong() {
@@ -242,8 +244,9 @@ function createNewSong() {
         const sectionContainer = document.createElement('div');
         sectionContainer.classList.add('section-container');
 
-        const lyricTextTypeContainer = document.createElement('div');
-        lyricTextTypeContainer.classList.add('lyric-type-text-container');
+        const lyricTextTypeScrollContainer = document.createElement('div');
+        lyricTextTypeScrollContainer.classList.add('lyric-scroll-container');
+        
 
         const lyricTypeContainer = document.createElement('div');
         lyricTypeContainer.classList.add('lyric-type-container');
@@ -278,22 +281,24 @@ function createNewSong() {
         const addNewSectionBtn = document.createElement('button');
         addNewSectionBtn.classList.add('add-new-section-btn');
         addNewSectionBtn.type = 'button';
-        addNewSectionBtn.textContent = 'Add New Section';
+        addNewSectionBtn.textContent = 'Add Section';
 
         // ----- WHEN CLICKED ALLOWS USER TO ADD MORE LYRICS -----
 
         addNewSectionBtn.addEventListener('click', (e) => {
             e.preventDefault();
 
+            index++;
+
             const addedLyricTextTypeContainer = document.createElement('div');
-            addedLyricTextTypeContainer.classList.add('lyric-type-text-container');
+            addedLyricTextTypeContainer.classList.add(`lyric-type-text-container`);
 
             const addedLyricTypeContainer = document.createElement('div');
             addedLyricTypeContainer.classList.add('lyric-type-container');
 
 
             const addedLyricTypeLabel = document.createElement('label');
-            addedLyricTypeLabel.classList.add('added-lyrictype-label');
+            addedLyricTypeLabel.classList.add('lyric-type-label');
             addedLyricTypeLabel.textContent = 'Section: ';
 
             const addedLyricTypeInput = document.createElement('select');
@@ -317,9 +322,8 @@ function createNewSong() {
             const addedSectionTextArea = document.createElement('textarea');
             addedSectionTextArea.classList.add('lyric-textarea');
             addedSectionTextArea.required = true;
-
             addedLyricTextTypeContainer.append(addedLyricTypeContainer, addedSectionTextArea);
-            sectionContainer.append(addedLyricTextTypeContainer);
+            lyricTextTypeScrollContainer.append(addedLyricTextTypeContainer);
         });
 
         const saveLyricsBtn = document.createElement('button');
@@ -363,8 +367,17 @@ function createNewSong() {
             sectionContainer.remove();
         });
         lyricTypeContainer.append(lyricTypeLabel, lyricTypeInput);
-        lyricTextTypeContainer.append(lyricTypeContainer, lyricTextArea);
-        sectionContainer.append(lyricTextTypeContainer, addNewSectionBtn, saveLyricsBtn, closePopUp);
+        const firstSectionContainer = document.createElement('div');
+        firstSectionContainer.classList.add('lyric-type-text-container');
+
+        firstSectionContainer.append(
+        lyricTypeContainer,
+        lyricTextArea
+        );
+
+        lyricTextTypeScrollContainer.append(firstSectionContainer);
+        // lyricTextTypeScrollContainer.append(lyricTypeContainer, lyricTextArea);
+        sectionContainer.append(lyricTextTypeScrollContainer, addNewSectionBtn, saveLyricsBtn, closePopUp);
         body.append(sectionContainer);
     }
 

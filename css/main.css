@@ -266,6 +266,7 @@ main {
   grid-row: 1/3;
   grid-column: 1/2;
   min-width: 100px;
+  width: 250px;
   height: 80vh;
   background-color: #111f30;
   margin-top: 35px;
@@ -521,7 +522,7 @@ main {
   max-width: 500px;
   width: 100%;
   height: 400px;
-  background-color: orange;
+  background-color: #356b8d;
   grid-row: 2/3;
   grid-column: 1/4;
   justify-self: center;
@@ -529,14 +530,81 @@ main {
 
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: auto auto;
+  grid-template-rows: auto minmax(0, 1fr) auto;
   
   border-radius: 15px;
+  z-index: 11;
+  overflow: hidden;
+}
+
+.lyric-type-label {
+  color: white;
+}
+
+.lyric-scroll-container {
+  grid-row: 2;
+  grid-column: 1/-1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 15px;
+}
+
+.lyric-type-text-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-shrink: 0;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: #285273;
+}
+
+.lyric-type-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.lyric-textarea {
+  width: 100%;
+  height: 100px;
+  min-height: 100px;
+  box-sizing: border-box;
+  resize: vertical;
 }
 
 .add-new-section-btn, .save-lyrics-btn, .close-popup-btn {
   width: 120px;
   height: 30px;
+}
+
+.add-new-section-btn {
+  grid-row: 4/5;
+  grid-column: 1/-1;
+  align-self: start;
+  width: 90%;
+  justify-self: center;
+}
+
+.save-lyrics-btn {
+  grid-row: 5/6;
+  grid-column: 1/-1;
+  justify-self: end;
+  align-self: center;
+  margin-right: 5%;
+  height: 50px;
+}
+
+.close-popup-btn {
+  grid-row: 1/2;
+  grid-column: 1/-1;
+  justify-self: end;
+  align-self: center;
+  width: 40px;
+  margin-right: 5%;
 }
 
 /* BIBLE PANEL */
@@ -718,4 +786,59 @@ main {
   cursor: pointer;
 }
 
-/* FOOTER */
+/* MEDIA QUERIES */
+
+@media (min-width: 1024px) {
+  .panel {
+    margin-left: 40px;
+  }
+
+  .screens {
+    gap: 55px;
+  }
+
+  .preview-screen, .live-screen {
+    width: 370px;
+  }
+
+}
+
+@media (min-width: 1280px) {
+  .panel {
+    width: 270px;
+    margin-left: 35px;
+  }
+
+  .preview-screen, .live-screen {
+    width: 420px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .panel {
+    width: 300px;
+  }
+
+  .screens {
+    gap: 35px;
+  }
+
+  .preview-screen, .live-screen {
+    width: 460px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .preview-screen, .live-screen {
+    width: 640px;
+    height: 360px;
+  }
+
+  .screens {
+    gap: 50px;
+  }
+
+  .panel {
+    width: 350px;
+  }
+}
